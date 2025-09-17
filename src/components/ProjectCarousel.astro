@@ -1,0 +1,280 @@
+---
+import CameraIcon from "./icons/Camera.astro"; // Icono de cámara
+import type { Project } from "../data/projects";
+
+interface Props {
+  projects: Project[];
+  class?: string; // Añadir la prop 'class'
+}
+
+const { projects, class: className } = Astro.props;
+---
+
+<div class={`relative w-full overflow-hidden ${className}`}>
+  <div
+    class="flex transition-transform duration-500 ease-in-out items-stretch justify-start gap-x-4"
+    id="project-carousel-container"
+    data-projects-length={projects.length}
+  >
+    {projects.map((project) => (
+      <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-2 group">
+        <article class="bg-white shadow-lg rounded-lg p-6 flex flex-col space-y-4 h-full transform transition-transform duration-300 ease-in-out">
+          <div class="relative aspect-square overflow-hidden rounded-lg cursor-pointer"
+               onclick={`window.myProjectScripts.openLightbox(0, ${JSON.stringify(project.images)}, '${project.title}')`}>
+            <img
+              alt={`${project.title} - Main Image`}
+              class="object-cover w-full h-full rounded-lg"
+              loading="lazy"
+              src={project.images[0].src}
+            />
+            {project.images.length > 1 && (
+              <div class="absolute bottom-2 right-2 flex items-center space-x-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded-md">
+                <CameraIcon class="size-4" />
+                <span>{project.images.length}</span>
+              </div>
+            )}
+          </div>
+
+          <div class="flex-grow flex flex-col justify-between">
+            <div>
+              <h3 class="text-xl font-bold text-black mb-2 group-hover:text-red-700 transition-colors duration-300">
+                {project.title}
+              </h3>
+              <div class="flex flex-wrap mb-2 gap-x-2">
+                <ul class="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <li>
+                      <span class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2`}>
+                        <tag.icon class="size-4" />
+                        {tag.name}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <p class="text-gray-700 text-sm group-hover:text-gray-800 transition-colors duration-300">
+                {project.description}
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    ))}
+  </div>
+
+  <!-- Navigation Arrows -->
+  <button id="carousel-prev" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-700 focus:outline-none z-10 hidden lg:block">
+    &#10094;
+  </button>
+  <button id="carousel-next" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-700 focus:outline-none z-10 hidden lg:block">
+    &#10095;
+  </button>
+</div>
+
+<!-- Lightbox Modal Structure (reintegrado desde Projects.astro) -->
+<div id="lightbox-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black">
+  <div class="relative w-full h-full flex flex-col lg:flex-row bg-black">
+    <button id="lightbox-close-btn" class="absolute top-4 right-4 z-[60] text-white text-3xl font-bold p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-white">
+      &times;
+    </button>
+    <div class="flex flex-col items-center justify-center w-full h-full overflow-hidden">
+      <div class="relative max-w-full max-h-full flex items-center justify-center">
+        <button id="lightbox-prev-btn" class="absolute top-1/2 left-4 -translate-y-1/2 z-10 p-2 text-white text-4xl font-bold bg-black bg-opacity-50 rounded-full hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-white">
+          &#10094; <!-- Left arrow -->
+        </button>
+        <img id="lightbox-img" src="" alt="Project Image" style="width: auto; height: auto;"/>
+        <button id="lightbox-next-btn" class="absolute top-1/2 right-4 -translate-y-1/2 z-10 p-2 text-white text-4xl font-bold bg-black bg-opacity-50 rounded-full hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-white">
+          &#10095; <!-- Right arrow -->
+        </button>
+      </div>
+      <div id="lightbox-caption" class="w-full p-4 text-center text-white bg-black"></div>
+    </div>
+    <div id="lightbox-thumbnails" class="w-full lg:w-64 p-4 bg-black bg-opacity-80 flex flex-row lg:flex-col items-center space-x-4 lg:space-x-0 lg:space-y-4 overflow-x-auto lg:overflow-y-auto">
+      <!-- Thumbnails will be injected here by JavaScript -->
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const carouselContainer = document.getElementById('project-carousel-container') as HTMLElement | null;
+    const prevBtn = document.getElementById('carousel-prev') as HTMLButtonElement | null;
+    const nextBtn = document.getElementById('carousel-next') as HTMLButtonElement | null;
+    
+    if (!carouselContainer) return;
+
+    const originalProjectsCount = parseInt(carouselContainer.dataset.projectsLength || '0');
+    let currentIndex = 0;
+    let startX = 0;
+    let isSwiping = false;
+
+    const getItemsPerView = () => {
+      if (window.innerWidth >= 1024) return 3;
+      if (window.innerWidth >= 768) return 2;
+      return 1;
+    };
+
+    const updateCarousel = (smooth = true) => {
+      if (carouselContainer.children.length > 0) {
+        const firstItem = carouselContainer.children[0] as HTMLElement;
+        const itemWidth = firstItem.clientWidth;
+        const gap = 16; // Corresponds to gap-x-4
+        const totalItemWidth = itemWidth + gap;
+
+        carouselContainer.style.transition = smooth ? 'transform 0.5s ease-in-out' : 'none';
+        carouselContainer.style.transform = `translateX(-${currentIndex * totalItemWidth}px)`;
+      }
+    };
+
+    const handleNavigation = (direction: 'prev' | 'next') => {
+      const itemsPerView = getItemsPerView();
+      const maxIndex = Math.max(0, originalProjectsCount - itemsPerView);
+
+      if (direction === 'prev') {
+        currentIndex = Math.max(0, currentIndex - 1);
+      } else {
+        currentIndex = Math.min(maxIndex, currentIndex + 1);
+      }
+      updateCarousel();
+    };
+
+    // Event listeners for navigation buttons (desktop)
+    prevBtn?.addEventListener('click', () => handleNavigation('prev'));
+    nextBtn?.addEventListener('click', () => handleNavigation('next'));
+
+    // Event listeners for swipe (mobile)
+    carouselContainer.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isSwiping = true;
+    });
+
+    carouselContainer.addEventListener('touchmove', () => {
+      if (!isSwiping) return;
+      // Optional: Add visual feedback during swipe, e.g., by temporarily adjusting transform
+      // const currentX = e.touches[0].clientX;
+      // const diffX = startX - currentX;
+      // carouselContainer.style.transform = `translateX(-${currentIndex * totalItemWidth + diffX}px)`;
+    });
+
+    carouselContainer.addEventListener('touchend', (e) => {
+      if (!isSwiping) return;
+      const endX = e.changedTouches[0].clientX;
+      const diffX = startX - endX;
+      const swipeThreshold = 50; // Pixels to consider a swipe
+
+      if (diffX > swipeThreshold) {
+        handleNavigation('next');
+      } else if (diffX < -swipeThreshold) {
+        handleNavigation('prev');
+      }
+      isSwiping = false;
+    });
+
+    const handleResize = () => {
+      const itemsPerView = getItemsPerView();
+      const maxIndex = Math.max(0, originalProjectsCount - itemsPerView);
+      if (currentIndex > maxIndex) {
+        currentIndex = maxIndex;
+      }
+      updateCarousel(false);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    // Lightbox functionality
+    const lightbox = {
+      modal: document.getElementById('lightbox-modal'),
+      closeBtn: document.getElementById('lightbox-close-btn'),
+      prevBtn: document.getElementById('lightbox-prev-btn'),
+      nextBtn: document.getElementById('lightbox-next-btn'),
+      img: document.getElementById('lightbox-img') as HTMLImageElement,
+      caption: document.getElementById('lightbox-caption'),
+      thumbnails: document.getElementById('lightbox-thumbnails'),
+      currentImageIndex: 0,
+      currentProjectImagesData: [] as { src: string; caption: string; }[],
+      currentProjectTitle: '',
+
+      open(index: number, projectImagesData: { src: string; caption: string; }[], projectTitle: string) {
+        if (!this.modal) return;
+        this.modal.classList.remove('hidden');
+        this.modal.classList.add('flex');
+        this.currentProjectImagesData = projectImagesData;
+        this.currentProjectTitle = projectTitle;
+        this.showImage(index);
+        this.generateThumbnails();
+      },
+
+      close() {
+        if (!this.modal) return;
+        this.modal.classList.add('hidden');
+        this.modal.classList.remove('flex');
+      },
+
+      showImage(index: number) {
+        if (!this.img || !this.caption || !this.prevBtn || !this.nextBtn) return;
+        this.currentImageIndex = index;
+        const image = this.currentProjectImagesData[index];
+        this.img.src = image.src;
+        this.caption.textContent = `${this.currentProjectTitle} - ${image.caption}`;
+        (this.prevBtn as HTMLElement).style.display = index > 0 ? 'block' : 'none';
+        (this.nextBtn as HTMLElement).style.display = index < this.currentProjectImagesData.length - 1 ? 'block' : 'none';
+        this.updateActiveThumbnail();
+      },
+
+      navigate(direction: 'prev' | 'next') {
+        const newIndex = direction === 'prev' ? this.currentImageIndex - 1 : this.currentImageIndex + 1;
+        if (newIndex >= 0 && newIndex < this.currentProjectImagesData.length) {
+          this.showImage(newIndex);
+        }
+      },
+
+      generateThumbnails() {
+        if (!this.thumbnails) return;
+        this.thumbnails.innerHTML = '';
+        this.currentProjectImagesData.forEach((image, idx) => {
+          const thumbnail = document.createElement('img');
+          thumbnail.src = image.src;
+          thumbnail.alt = image.caption;
+          thumbnail.classList.add('h-24', 'w-24', 'object-cover', 'cursor-pointer', 'border-2', 'border-transparent', 'hover:border-blue-500', 'transition-all', 'duration-200', 'flex-shrink-0');
+          thumbnail.addEventListener('click', () => this.showImage(idx));
+          this.thumbnails?.appendChild(thumbnail);
+        });
+      },
+
+      updateActiveThumbnail() {
+        if (!this.thumbnails) return;
+        Array.from(this.thumbnails.children).forEach((thumbnail, idx) => {
+          if (idx === this.currentImageIndex) {
+            thumbnail.classList.add('border-blue-500');
+          } else {
+            thumbnail.classList.remove('border-blue-500');
+          }
+        });
+      },
+
+      init() {
+        this.closeBtn?.addEventListener('click', () => this.close());
+        this.prevBtn?.addEventListener('click', () => this.navigate('prev'));
+        this.nextBtn?.addEventListener('click', () => this.navigate('next'));
+        this.modal?.addEventListener('click', (event) => {
+          if (event.target === this.modal) this.close();
+        });
+        document.addEventListener('keydown', (event) => {
+          if (this.modal && !this.modal.classList.contains('hidden')) {
+            if (event.key === 'Escape') this.close();
+            if (event.key === 'ArrowLeft') this.navigate('prev');
+            if (event.key === 'ArrowRight') this.navigate('next');
+          }
+        });
+      }
+    };
+
+    lightbox.init();
+
+    // Expose openLightbox to global scope for inline onclick
+    (window as any).myProjectScripts = {
+      openLightbox: lightbox.open.bind(lightbox)
+    };
+  });
+</script>

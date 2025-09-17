@@ -1,0 +1,51 @@
+---
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+interface Props {
+	title: string;
+	body: string;
+	href: string;
+	imageUrl?: string;
+	Icon?: AstroComponentFactory;
+	class?: string;
+	style?: string;
+}
+
+const { href, title, body, Icon, class: className, style } = Astro.props;
+---
+
+<li
+	class:list={[
+		"group bg-white rounded-lg overflow-hidden shadow-md border border-background-light transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl hover:border-text-dark",
+		className,
+	]}
+	style={style}
+>
+	<a href={href} class="block h-full">
+		<div
+			class="relative h-48 bg-cover bg-center"
+			style={Astro.props.imageUrl ? `background-image: url(${Astro.props.imageUrl})` : ''}
+		>
+			{Icon && (
+				<div class="absolute inset-0 flex items-center justify-center">
+					<div class="w-20 h-20 bg-background-light/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg transition-transform duration-300 ease-in-out group-hover:scale-110">
+						<Icon class="size-10 text-secondary transition-colors duration-300 group-hover:text-primary" />
+					</div>
+				</div>
+			)}
+		</div>
+		<div class="p-5">
+			<h2 class="text-xl font-bold tracking-tight text-red-600 mb-2 group-hover:text-primary transition-colors duration-300">
+				{title}
+			</h2>
+			<p class="mb-3 font-normal text-text-medium transition-colors duration-300">
+				{body}
+			</p>
+			<div class="mt-4">
+				<button class="px-4 py-2 bg-primary text-white rounded-md transition-all duration-300 ease-in-out hover:bg-secondary hover:scale-105 active:scale-95 active:bg-primary-dark active:shadow-inner">
+					Ver más
+				</button>
+			</div>
+		</div>
+	</a>
+</li>

@@ -1,0 +1,20 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Mocoa",
+			"country": {
+				"code": "CO",
+				"name": "Colombia"
+			},
+			"subdivision": {
+				"code": "PUT",
+				"name": "Putumayo Department"
+			},
+			"timezone": "America/Bogota",
+			"latitude": 1.1504,
+			"longitude": -76.6553,
+			"postalCode": "860001"
+		},
+		"timestamp": 1757448951917
+	}
+}

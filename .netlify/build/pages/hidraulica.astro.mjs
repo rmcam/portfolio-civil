@@ -1,0 +1,36 @@
+/* empty css                                       */
+import { c as createComponent, i as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_Bi7tt4P9.mjs';
+import 'kleur/colors';
+import { $ as $$Layout } from '../chunks/Layout_PvF5H369.mjs';
+import { $ as $$LightboxGallery } from '../chunks/LightboxGallery_C_k0r5My.mjs';
+export { renderers } from '../renderers.mjs';
+
+const $$Hidraulica = createComponent(($$result, $$props, $$slots) => {
+  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": "Recursos H\xEDdricos", "description": "Desarrollamos proyectos de acueducto, alcantarillado y manejo de aguas lluvias enfocados en la sostenibilidad y el \xF3ptimo aprovechamiento del recurso h\xEDdrico." }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<section class="relative h-64 flex items-center justify-center text-center p-8" style="background-image: url('/Recursos-Hídricos/hidraulica.webp'); background-size: cover; background-position: center;"> <div class="absolute inset-0 bg-black bg-opacity-50"></div> <div class="relative z-10"> <h1 class="text-4xl md:text-6xl font-bold text-text-light mb-4 tracking-tight">
+Recursos Hídricos
+</h1> <p class="text-lg md:text-xl text-text-light">
+Soluciones que fluyen con eficiencia.
+</p> </div> </section> <div class="container mx-auto px-4 py-16"> <!-- Sección de Servicios Clave como Infografía --> <section class="py-16"> <h3 class="text-3xl font-bold text-center mb-12 text-text-dark">Nuestro Proceso de Gestión Hídrica</h3> <div class="relative border-l-4 border-primary/20 ml-4 md:ml-0 md:border-l-0 md:border-t-4"> <div class="flex flex-col md:flex-row justify-between"> <!-- Paso 1 --> <div class="mb-8 md:mb-0 md:w-1/4"> <div class="absolute -left-4 -top-2 md:-top-4 md:left-1/4 transform md:-translate-x-1/2 w-8 h-8 bg-primary rounded-full border-4 border-white"></div> <div class="pl-8 md:pl-0 md:pt-12 text-center"> <h4 class="text-xl font-bold text-primary mb-2">1. Estudios y Modelación</h4> <p class="text-text-medium">Análisis hidrológicos y modelación de caudales para un diagnóstico preciso.</p> </div> </div> <!-- Paso 2 --> <div class="mb-8 md:mb-0 md:w-1/4"> <div class="absolute -left-4 top-1/3 md:-top-4 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-primary rounded-full border-4 border-white"></div> <div class="pl-8 md:pl-0 md:pt-12 text-center"> <h4 class="text-xl font-bold text-primary mb-2">2. Diseño de Redes</h4> <p class="text-text-medium">Diseño de sistemas de acueducto, alcantarillado y manejo de aguas lluvias.</p> </div> </div> <!-- Paso 3 --> <div class="mb-8 md:mb-0 md:w-1/4"> <div class="absolute -left-4 top-2/3 md:-top-4 md:left-3/4 transform md:-translate-x-1/2 w-8 h-8 bg-primary rounded-full border-4 border-white"></div> <div class="pl-8 md:pl-0 md:pt-12 text-center"> <h4 class="text-xl font-bold text-primary mb-2">3. Construcción e Interventoría</h4> <p class="text-text-medium">Ejecución y supervisión de obras para garantizar la calidad y eficiencia.</p> </div> </div> <!-- Paso 4 --> <div class="md:w-1/4"> <div class="absolute -left-4 bottom-0 md:-top-4 md:left-full transform md:-translate-x-1/2 w-8 h-8 bg-primary rounded-full border-4 border-white"></div> <div class="pl-8 md:pl-0 md:pt-12 text-center"> <h4 class="text-xl font-bold text-primary mb-2">4. Optimización</h4> <p class="text-text-medium">Mejora y optimización de redes existentes para un rendimiento superior.</p> </div> </div> </div> </div> </section> <!-- Sección de Estudio de Caso --> <section class="py-16 bg-background-light rounded-lg shadow-inner"> <h2 class="text-3xl font-bold text-center mb-4 text-primary">Estudio de Caso: Urbanización Villa Alban</h2> <p class="text-center text-lg text-text-dark mb-12 max-w-4xl mx-auto">Estudios y diseños para la urbanización en el municipio de Albania, departamento del Caquetá.</p> <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center px-8 mb-12"> <div> <h4 class="text-xl font-semibold text-text-dark mb-2">El Reto</h4> <p class="text-text-medium">Gestionar eficientemente las aguas lluvias y residuales en una nueva urbanización para prevenir inundaciones y garantizar la salubridad.</p> </div> <div> <h4 class="text-xl font-semibold text-text-dark mb-2">La Solución</h4> <p class="text-text-medium">Diseño e implementación de un sistema integral de alcantarillado pluvial y sanitario, optimizado para las condiciones del terreno.</p> </div> <div> <h4 class="text-xl font-semibold text-text-dark mb-2">El Resultado</h4> <p class="text-text-medium">Una comunidad segura, con infraestructura hídrica sostenible que mejora la calidad de vida de sus habitantes.</p> </div> </div> ${renderComponent($$result2, "LightboxGallery", $$LightboxGallery, { "images": [
+    { src: "/Recursos-H\xEDdricos/1/1.webp", caption: "Vista general de la Urbanizaci\xF3n Villa Alban" },
+    { src: "/Recursos-H\xEDdricos/1/1.1.webp", caption: "Detalle de la infraestructura hidr\xE1ulica" },
+    { src: "/Recursos-H\xEDdricos/1/1.2.webp", caption: "Construcci\xF3n de redes de alcantarillado" }
+  ], "projectTitle": "Urbanizaci\xF3n Villa Alban" })} </section> <!-- Call to Action --> <section class="text-center py-16"> <h4 class="text-2xl text-text-dark mb-4 font-bold">¿Necesita soluciones hídricas eficientes y sostenibles?</h4> <p class="text-lg text-text-medium mb-8 max-w-3xl mx-auto">
+Optimice la gestión del agua en su proyecto. Hable con un experto y asegure el éxito con un análisis y presupuesto detallado.
+</p> <a href="/contacto" class="inline-block bg-primary text-white font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-secondary transition duration-300 text-lg">
+Hable con un Experto
+</a> </section> </div> ` })}`;
+}, "C:/Users/rmcam/Documents/portfolio-civil/src/pages/hidraulica.astro", void 0);
+
+const $$file = "C:/Users/rmcam/Documents/portfolio-civil/src/pages/hidraulica.astro";
+const $$url = "/hidraulica";
+
+const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: $$Hidraulica,
+  file: $$file,
+  url: $$url
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const page = () => _page;
+
+export { page };

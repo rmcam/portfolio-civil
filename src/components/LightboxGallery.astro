@@ -1,0 +1,201 @@
+---
+import type { ProjectImage } from '../data/projects';
+
+interface Props {
+  images: ProjectImage[];
+}
+
+const { images } = Astro.props;
+
+let gridClasses = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8';
+if (images.length === 1) {
+  gridClasses = 'grid grid-cols-1';
+} else if (images.length === 2) {
+  gridClasses = 'grid grid-cols-1 md:grid-cols-2 gap-8';
+}
+---
+
+<style>
+  #lightbox-img-container {
+    overflow: hidden;
+    cursor: grab;
+  }
+  #lightbox-img {
+    transition: transform 0.2s ease-out;
+    transform-origin: center center;
+  }
+  #lightbox-img.panning {
+    cursor: grabbing;
+  }
+</style>
+
+<!-- Lightbox Modal Structure -->
+<div id="lightbox-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90">
+  <div class="relative w-full h-full flex flex-col bg-black">
+    <!-- Controls -->
+    <div class="absolute top-2 right-2 z-[60] flex items-center gap-2">
+      <button id="lightbox-reset-btn" class="text-white text-2xl font-bold p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-75 focus:outline-none" title="Reset Zoom">
+        &#x21BA; <!-- Reset icon -->
+      </button>
+      <button id="lightbox-close-btn" class="text-white text-4xl font-bold p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-75 focus:outline-none">
+        &times;
+      </button>
+    </div>
+    
+    <!-- Image Viewport -->
+    <div id="lightbox-img-container" class="relative flex-grow flex items-center justify-center w-full h-full overflow-hidden">
+      <img id="lightbox-img" src="" alt="Project Image" class="max-w-full max-h-full object-contain flex-shrink-0"/>
+    </div>
+    <p id="lightbox-caption" class="text-center text-white text-lg mt-4"></p>
+
+    <!-- Navigation -->
+    <button id="lightbox-prev-btn" class="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 text-white text-4xl font-bold bg-black bg-opacity-50 rounded-full hover:bg-opacity-75 focus:outline-none">
+      &#10094;
+    </button>
+    <button id="lightbox-next-btn" class="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 text-white text-4xl font-bold bg-black bg-opacity-50 rounded-full hover:bg-opacity-75 focus:outline-none">
+      &#10095;
+    </button>
+  </div>
+</div>
+
+<!-- Image Grid -->
+<div class:list={[gridClasses]}>
+  {images.map((image, index) => (
+    <div class="block group cursor-pointer" onclick=`openLightbox(${index})`>
+      <img 
+        src={image.src} 
+        alt={image.caption} 
+        class="w-full h-auto rounded-lg shadow-md border border-gray-700 group-hover:shadow-xl transition-shadow duration-300"
+      />
+      <p class="text-center text-text-dark text-lg mt-2 flex items-center">{image.caption}</p>
+    </div>
+  ))}
+</div>
+
+<script is:inline define:vars={{ images }}>
+  let currentImageIndex = 0;
+  const modal = document.getElementById('lightbox-modal');
+  const imgContainer = document.getElementById('lightbox-img-container');
+  const modalImg = document.getElementById('lightbox-img');
+  
+  // Zoom & Pan state
+  let scale = 1;
+  let panning = false;
+  let pointX = 0;
+  let pointY = 0;
+  let start = { x: 0, y: 0 };
+
+  function setTransform() {
+    modalImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+  }
+
+  function resetTransform() {
+    scale = 1;
+    pointX = 0;
+    pointY = 0;
+    setTransform();
+  }
+
+  function showImageInLightbox(index) {
+    currentImageIndex = index;
+    modalImg.src = images[index].src;
+    resetTransform();
+
+    // Set the caption
+    const captionElement = document.getElementById('lightbox-caption');
+    if (captionElement) {
+      captionElement.textContent = images[index].caption;
+    }
+
+    const prevBtn = document.getElementById('lightbox-prev-btn');
+    const nextBtn = document.getElementById('lightbox-next-btn');
+    prevBtn.style.display = index > 0 ? 'block' : 'none';
+    nextBtn.style.display = index < images.length - 1 ? 'block' : 'none';
+  }
+
+  window.openLightbox = (index) => {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    showImageInLightbox(index);
+  };
+
+  function closeLightbox() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    resetTransform();
+  }
+
+  function navigateLightbox(direction) {
+    if (direction === 'prev' && currentImageIndex > 0) {
+      showImageInLightbox(currentImageIndex - 1);
+    } else if (direction === 'next' && currentImageIndex < images.length - 1) {
+      showImageInLightbox(currentImageIndex + 1);
+    }
+  }
+  
+  // Event Listeners
+  imgContainer.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    panning = true;
+    modalImg.classList.add('panning');
+    start = { x: e.clientX - pointX, y: e.clientY - pointY };
+  });
+
+  imgContainer.addEventListener('mouseup', () => {
+    panning = false;
+    modalImg.classList.remove('panning');
+  });
+  
+  imgContainer.addEventListener('mouseleave', () => {
+    panning = false;
+    modalImg.classList.remove('panning');
+  });
+
+  imgContainer.addEventListener('mousemove', (e) => {
+    if (!panning) return;
+    e.preventDefault();
+    pointX = (e.clientX - start.x);
+    pointY = (e.clientY - start.y);
+    setTransform();
+  });
+
+  imgContainer.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const xs = (e.clientX - pointX) / scale;
+    const ys = (e.clientY - pointY) / scale;
+    const delta = -e.deltaY;
+    
+    (delta > 0) ? (scale *= 1.2) : (scale /= 1.2);
+    scale = Math.min(Math.max(1, scale), 10); // Clamp scale between 1 and 10
+
+    pointX = e.clientX - xs * scale;
+    pointY = e.clientY - ys * scale;
+
+    setTransform();
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const closeBtn = document.getElementById('lightbox-close-btn');
+    const resetBtn = document.getElementById('lightbox-reset-btn');
+    const prevBtn = document.getElementById('lightbox-prev-btn');
+    const nextBtn = document.getElementById('lightbox-next-btn');
+
+    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    if (resetBtn) resetBtn.addEventListener('click', resetTransform);
+    if (prevBtn) prevBtn.addEventListener('click', () => navigateLightbox('prev'));
+    if (nextBtn) nextBtn.addEventListener('click', () => navigateLightbox('next'));
+    if (modal) modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (!modal.classList.contains('hidden')) {
+        if (event.key === 'Escape') closeLightbox();
+        if (event.key === 'ArrowLeft') navigateLightbox('prev');
+        if (event.key === 'ArrowRight') navigateLightbox('next');
+      }
+    });
+  });
+</script>
