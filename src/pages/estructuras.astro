@@ -159,7 +159,7 @@ const estructurasProjects = PROJECTS.filter((project: Project) => project.tags.s
       <h3 class="text-4xl font-bold text-center mb-16 text-gray-800 animate-on-scroll">Nuestros Proyectos Estructurales Destacados</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Aquí se mapearán los proyectos de estructuras */}
-        {estructurasProjects.map((project: Project, projectIndex: number) => (
+        {estructurasProjects.map((project: Project) => (
           <div class="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                onclick={`window.myProjectScripts.openLightbox(0, ${JSON.stringify(project.images)}, '${project.title.replace(/'/g, "\\'")}')`}>
             <Image
