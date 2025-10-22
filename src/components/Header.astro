@@ -1,4 +1,5 @@
 ---
+// Importaciones de componentes de iconos para la navegación
 import Home from './icons/Home.astro';
 import BriefCase from './icons/BriefCase.astro';
 import Folder from './icons/Folder.astro';
@@ -9,27 +10,35 @@ import Building from './icons/Building.astro';
 import Road from './icons/Road.astro';
 import WaterDrop from './icons/WaterDrop.astro';
 import Camera from './icons/Camera.astro';
+import Logo from '../assets/Logo/LOGO GUILLERMO-011.webp'; // Importar el logo
+
 ---
 
+<!--
+  Componente Header (Cabecera): Contiene el logo, la navegación principal (escritorio y móvil)
+  y enlaces a redes sociales. Es fijo en la parte superior de la página.
+-->
 <header
   id="header"
-
   class="fixed top-0 z-50 w-full bg-white shadow-lg"
 >
   <nav class="flex items-center justify-between w-full border-b border-background-light">
+    <!-- Logo del portafolio, enlaza a la página de inicio -->
     <a href="/" class="flex items-center">
-      <img src="/Logo/LOGO GUILLERMO-011.webp" alt="Ingeniero Civil Guillermo Quintero" class="h-24 w-auto lg:h-24 " />
+      <img src={Logo.src} alt="Ingeniero Civil Guillermo Quintero" class="h-24 w-auto lg:h-24 " />
     </a>
-    <!-- Desktop Navigation Links -->
+    <!-- Enlaces de navegación para escritorio -->
     <div id="nav-links" class="hidden sm:flex gap-6">
       <a class="px-3 py-2 transition text-text-dark hover:text-primary flex items-center gap-2" href="/">
         <Home class="w-5 h-5" />
         Inicio
       </a>
+      <!-- Menú desplegable de Servicios -->
       <div class="relative group">
         <button id="services-dropdown-button" class="px-3 py-4 transition text-text-dark hover:text-primary flex items-center gap-2" aria-expanded="false" aria-haspopup="true">
           <BriefCase class="w-5 h-5" />
           Servicios
+          <!-- Icono de flecha para indicar desplegable -->
           <svg class="ml-1 w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
           </svg>
@@ -70,9 +79,9 @@ import Camera from './icons/Camera.astro';
         Contacto
       </a>
     </div>
-    <!-- Social Icons -->
+    <!-- Iconos de Redes Sociales (solo en escritorio) -->
     <div class="hidden sm:flex items-center gap-4">
-        <a href="https://linkedin.com/in/rmcam/" target="_blank" aria-label="LinkedIn" class="text-text-medium hover:text-secondary transition">
+        <a href="/contacto" target="_blank" aria-label="LinkedIn" class="text-text-medium hover:text-secondary transition">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                 <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
@@ -82,13 +91,13 @@ import Camera from './icons/Camera.astro';
                 <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
             </svg>
         </a>
-        <a href="https://facebook.com/rmcam" target="_blank" aria-label="Facebook" class="text-text-medium hover:text-secondary transition">
+        <a href="/contacto" target="_blank" aria-label="Facebook" class="text-text-medium hover:text-secondary transition">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                 <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"></path>
             </svg>
         </a>
-        <a href="https://wa.me/+573001234567" target="_blank" aria-label="WhatsApp" class="text-text-medium hover:text-secondary transition">
+        <a href="/contacto" target="_blank" aria-label="WhatsApp" class="text-text-medium hover:text-secondary transition">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-whatsapp" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                 <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"></path>
@@ -96,7 +105,7 @@ import Camera from './icons/Camera.astro';
             </svg>
         </a>
     </div>
-    <!-- Hamburger Icon -->
+    <!-- Icono de Hamburguesa para menú móvil -->
     <div class="md:hidden flex items-center">
       <button id="hamburger-button" class="text-text-dark focus:outline-none" aria-label="Abrir menú" aria-controls="mobile-menu" aria-expanded="false">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -106,8 +115,8 @@ import Camera from './icons/Camera.astro';
     </div>
   </nav>
 
-    <!-- Mobile Menu (slides from side) -->
-<div id="mobile-menu" class="fixed inset-y-0 left-0 transform translate-x-full bg-white/90 backdrop-blur-lg w-64 p-6 transition-transform duration-300 ease-in-out z-40" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title">
+    <!-- Menú Móvil (se desliza desde el lado derecho) -->
+<div id="mobile-menu" class="fixed inset-y-0 right-0 transform translate-x-full bg-white/90 backdrop-blur-lg w-64 p-6 transition-transform duration-300 ease-in-out z-40" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title">
     <h2 id="mobile-menu-title" class="sr-only">Menú de Navegación Móvil</h2>
     <div class="flex justify-end mb-6">
       <button id="close-menu-button" class="text-text-dark focus:outline-none" aria-label="Cerrar menú">
@@ -166,50 +175,55 @@ import Camera from './icons/Camera.astro';
       </a>
     </nav>
   </div>
-  <!-- Overlay for mobile menu -->
+  <!-- Overlay para el menú móvil (oscurece el contenido principal) -->
   <div id="mobile-menu-overlay" class="fixed inset-0 bg-black opacity-0 transition-opacity duration-300 ease-in-out z-30 pointer-events-none"></div>
 </header>
 
 <script is:inline>
+  // Obtención de elementos del DOM
   const header = document.getElementById('header');
-  const navLinks = document.getElementById('nav-links'); // Desktop nav links
+  const navLinks = document.getElementById('nav-links'); // Enlaces de navegación de escritorio
   const hamburgerButton = document.getElementById('hamburger-button');
   const mobileMenu = document.getElementById('mobile-menu');
   const closeMenuButton = document.getElementById('close-menu-button');
   const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
 
-  // New dropdown elements
+  // Elementos del menú desplegable de servicios
   const servicesDropdownButton = document.getElementById('services-dropdown-button');
   const servicesDropdownMenu = document.getElementById('services-dropdown-menu');
   const mobileServicesDropdownButton = document.getElementById('mobile-services-dropdown-button');
   const mobileServicesDropdownMenu = document.getElementById('mobile-services-dropdown-menu');
 
   if (header) {
-    // Function to toggle mobile menu visibility
+    /**
+     * Alterna la visibilidad del menú móvil y el overlay, y controla el scroll del cuerpo.
+     */
     const toggleMobileMenu = () => {
       if (mobileMenu && hamburgerButton && mobileMenuOverlay) {
-        const isHidden = mobileMenu.classList.toggle('translate-x-full'); // Toggle the class that positions it off-screen
+        const isHidden = mobileMenu.classList.toggle('translate-x-full'); // Alterna la clase que lo posiciona fuera de pantalla
         hamburgerButton.setAttribute('aria-expanded', (!isHidden).toString());
 
-        // Toggle overlay visibility and body scroll
+        // Alterna la visibilidad del overlay y el scroll del cuerpo
         if (isHidden) {
           mobileMenuOverlay.classList.remove('opacity-60', 'pointer-events-auto');
           mobileMenuOverlay.classList.add('opacity-0', 'pointer-events-none');
-          document.body.style.overflow = ''; // Restore scroll
+          document.body.style.overflow = ''; // Restaura el scroll
         } else {
           mobileMenuOverlay.classList.remove('opacity-0', 'pointer-events-none');
           mobileMenuOverlay.classList.add('opacity-60', 'pointer-events-auto');
-          document.body.style.overflow = 'hidden'; // Prevent scroll
+          document.body.style.overflow = 'hidden'; // Previene el scroll
         }
       }
     };
 
-    // Function to toggle mobile services dropdown
+    /**
+     * Alterna la visibilidad del menú desplegable de servicios en móvil.
+     */
     const toggleMobileServicesDropdown = () => {
       if (mobileServicesDropdownMenu && mobileServicesDropdownButton) {
         const isHidden = mobileServicesDropdownMenu.classList.toggle('hidden');
         mobileServicesDropdownButton.setAttribute('aria-expanded', (!isHidden).toString());
-        // Rotate SVG icon
+        // Rota el icono SVG para indicar el estado del desplegable
         const svg = mobileServicesDropdownButton.querySelector('svg');
         if (svg) {
           if (isHidden) {
@@ -221,7 +235,11 @@ import Camera from './icons/Camera.astro';
       }
     };
 
-    // Helper function to update link status
+    /**
+     * Función auxiliar para actualizar el estado de un enlace (activo/inactivo).
+     * @param {HTMLElement} linkElement - El elemento del enlace a actualizar.
+     * @param {boolean} isActive - True si el enlace debe estar activo, false en caso contrario.
+     */
     const updateLinkStatus = (linkElement, isActive) => {
       if (linkElement) {
         if (isActive) {
@@ -232,22 +250,22 @@ import Camera from './icons/Camera.astro';
       }
     };
 
-    // Hamburger menu logic
+    // Lógica del botón de hamburguesa
     if (hamburgerButton && mobileMenu) {
       hamburgerButton.addEventListener('click', toggleMobileMenu);
     }
 
-    // Close menu button logic
+    // Lógica del botón para cerrar el menú móvil
     if (closeMenuButton && mobileMenu) {
       closeMenuButton.addEventListener('click', toggleMobileMenu);
     }
 
-    // Overlay click logic
+    // Lógica para cerrar el menú móvil al hacer clic en el overlay
     if (mobileMenuOverlay) {
       mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
     }
 
-    // Desktop services dropdown logic (hover)
+    // Lógica del menú desplegable de servicios en escritorio (hover)
     if (servicesDropdownButton && servicesDropdownMenu) {
       let timeout;
       const showDropdown = () => {
@@ -268,20 +286,20 @@ import Camera from './icons/Camera.astro';
       servicesDropdownMenu.addEventListener('mouseleave', hideDropdown);
     }
 
-    // Mobile services dropdown logic (click)
+    // Lógica del menú desplegable de servicios en móvil (click)
     if (mobileServicesDropdownButton) {
       mobileServicesDropdownButton.addEventListener('click', toggleMobileServicesDropdown);
     }
 
-    // Close mobile menu when clicking outside of it (optional, but good UX)
-    // This part is now handled by the overlay click listener, but keeping for robustness if needed
+    // Cerrar menú móvil al hacer clic fuera de él (opcional, pero buena UX)
+    // Esta parte ahora es manejada por el listener de clic del overlay, pero se mantiene para robustez si es necesario
     document.addEventListener('click', (event) => {
       if (mobileMenu && !mobileMenu.contains(event.target) && !hamburgerButton.contains(event.target) && !mobileMenu.classList.contains('translate-x-full') && !mobileMenuOverlay.contains(event.target)) {
         toggleMobileMenu();
       }
     });
 
-    // Close mobile menu when a navigation link is clicked
+    // Cerrar menú móvil al hacer clic en un enlace de navegación
     const mobileNavLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
     mobileNavLinks.forEach(link => {
       link.addEventListener('click', () => {
@@ -291,7 +309,9 @@ import Camera from './icons/Camera.astro';
       });
     });
 
-    // Highlight active link
+    /**
+     * Resalta el enlace de navegación activo basándose en la URL actual.
+     */
     const highlightActiveLink = () => {
       const currentPath = window.location.pathname;
       const desktopLinks = navLinks ? navLinks.querySelectorAll('a') : [];
@@ -307,22 +327,22 @@ import Camera from './icons/Camera.astro';
       });
     };
 
-    // Call on load and on navigation (e.g., for SPA-like behavior if applicable)
+    // Llamar al cargar y al navegar (ej. para comportamiento tipo SPA si aplica)
     highlightActiveLink();
-    window.addEventListener('popstate', highlightActiveLink); // For browser back/forward buttons
+    window.addEventListener('popstate', highlightActiveLink); // Para botones de atrás/adelante del navegador
   }
 </script>
 
 <style>
-  /* Add styles for the mobile menu transition */
+  /* Estilos para la transición del menú móvil */
 #mobile-menu.translate-x-full {
-  transform: translateX(-100%);
+  transform: translateX(100%);
 }
   #mobile-menu:not(.translate-x-full) {
     transform: translateX(0);
   }
 
-  /* Styles for active navigation link */
+  /* Estilos para el enlace de navegación activo */
   #nav-links a.active {
     color: theme('colors.primary');
     font-weight: bold;
@@ -334,32 +354,32 @@ import Camera from './icons/Camera.astro';
     position: absolute;
     width: 100%;
     height: 2px;
-    bottom: -5px; /* Adjust as needed */
+    bottom: -5px; /* Ajustar según sea necesario */
     left: 0;
     background-color: theme('colors.primary');
     transform: scaleX(1);
     transition: transform 0.3s ease-in-out;
   }
 
-  /* Style for active dropdown button */
+  /* Estilo para el botón de desplegable activo */
   #nav-links button.active {
     color: theme('colors.primary');
     font-weight: bold;
   }
 
-  /* Style for active mobile dropdown button */
+  /* Estilo para el botón de desplegable móvil activo */
   #mobile-menu nav button.active {
     color: theme('colors.primary');
     font-weight: bold;
   }
 
-  /* Add hover effect to navigation links with underline */
+  /* Añadir efecto hover a los enlaces de navegación con subrayado */
   #nav-links a:not(.active)::after {
     content: '';
     position: absolute;
     width: 100%;
     height: 2px;
-    bottom: -5px; /* Adjust as needed */
+    bottom: -5px; /* Ajustar según sea necesario */
     left: 0;
     background-color: theme('colors.primary');
     transform: scaleX(0);
@@ -370,9 +390,9 @@ import Camera from './icons/Camera.astro';
     transform: scaleX(1);
   }
 
-  /* Mobile menu active link styles */
+  /* Estilos de enlace activo para el menú móvil */
   #mobile-menu nav a.active {
-    background-color: theme('colors.background-light'); /* Subtle background */
+    background-color: theme('colors.background-light'); /* Fondo sutil */
     color: theme('colors.primary');
     font-weight: bold;
     border-radius: 0.25rem; /* rounded-md */

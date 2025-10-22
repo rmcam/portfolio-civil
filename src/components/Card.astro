@@ -1,50 +1,63 @@
 ---
-import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+// Importación de tipos para componentes Astro
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js'; // Revertir a AstroComponentFactory
+import { Image } from 'astro:assets'; // Importar el componente Image de Astro
 
+// Definición de las propiedades (props) que acepta el componente Card
 interface Props {
-	title: string;
-	body: string;
-	href: string;
-	imageUrl?: string;
-	Icon?: AstroComponentFactory;
-	class?: string;
-	style?: string;
+	title: string; // Título de la tarjeta
+	body: string; // Cuerpo o descripción de la tarjeta
+	href: string; // URL a la que enlaza la tarjeta
+	imageUrl?: ImageMetadata; // URL opcional de una imagen para la tarjeta, debe ser ImageMetadata
+	Icon?: AstroComponentFactory; // Componente de icono opcional para la tarjeta
+	class?: string; // Clases CSS adicionales para el elemento <li>
+	style?: string; // Estilos CSS en línea adicionales para el elemento <li>
 }
 
-const { href, title, body, Icon, class: className, style } = Astro.props;
+// Desestructuración de las props de Astro
+const { href, title, body, Icon, class: className, style, imageUrl } = Astro.props;
 ---
 
+<!--
+  Componente Card reutilizable para mostrar servicios o proyectos.
+  Puede mostrar una imagen o un icono, y tiene un efecto hover interactivo.
+-->
 <li
 	class:list={[
-		"group bg-white rounded-lg overflow-hidden shadow-md border border-background-light transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl hover:border-text-dark",
+		"group bg-white rounded-xl overflow-hidden shadow-lg border border-transparent transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl hover:border-primary",
 		className,
 	]}
 	style={style}
 >
 	<a href={href} class="block h-full">
-		<div
-			class="relative h-48 bg-cover bg-center"
-			style={Astro.props.imageUrl ? `background-image: url(${Astro.props.imageUrl})` : ''}
-		>
+		<div class="relative h-56">
+			<!-- Renderiza una imagen si imageUrl está presente -->
+			{imageUrl && (
+				<Image src={imageUrl} alt={title} width={400} height={224} class="w-full h-auto object-contain" loading="lazy" decoding="async" />
+			)}
+			<!-- Renderiza un icono si Icon está presente (superpuesto a la imagen si existe) -->
 			{Icon && (
 				<div class="absolute inset-0 flex items-center justify-center">
-					<div class="w-20 h-20 bg-background-light/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg transition-transform duration-300 ease-in-out group-hover:scale-110">
-						<Icon class="size-10 text-secondary transition-colors duration-300 group-hover:text-primary" />
+					<div class="w-24 h-24 bg-background-light/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg transition-transform duration-300 ease-in-out group-hover:scale-110">
+						<Icon class="size-12 text-secondary transition-colors duration-300 group-hover:text-primary" />
 					</div>
 				</div>
 			)}
 		</div>
-		<div class="p-5">
-			<h2 class="text-xl font-bold tracking-tight text-red-600 mb-2 group-hover:text-primary transition-colors duration-300">
+		<div class="p-6 relative z-10 bg-white min-h-[120px]">
+			<!-- Título de la tarjeta con efecto hover -->
+			<h2 class="text-2xl font-bold text-primary mb-3 group-hover:text-secondary transition-colors duration-300">
 				{title}
 			</h2>
-			<p class="mb-3 font-normal text-text-medium transition-colors duration-300">
+			<!-- Cuerpo o descripción de la tarjeta -->
+			<p class="mb-4 text-text-medium">
 				{body}
 			</p>
-			<div class="mt-4">
-				<button class="px-4 py-2 bg-primary text-white rounded-md transition-all duration-300 ease-in-out hover:bg-secondary hover:scale-105 active:scale-95 active:bg-primary-dark active:shadow-inner">
+			<div class="mt-6">
+				<!-- Botón "Ver más" con efecto hover -->
+				<span class="inline-block bg-primary text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-secondary transition duration-300 text-lg transform group-hover:scale-105">
 					Ver más
-				</button>
+				</span>
 			</div>
 		</div>
 	</a>

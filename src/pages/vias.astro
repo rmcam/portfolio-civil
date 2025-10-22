@@ -1,23 +1,51 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
-import Road from '../components/icons/Road.astro';
-import RoadSign from '../components/icons/RoadSign.astro';
-import Tools from '../components/icons/Tools.astro';
-import FileSearch from '../components/icons/FileSearch.astro';
-import Building from '../components/icons/Building.astro';
-import { projects } from '../data/vias';
+// Importaciones de componentes y utilidades
+import Layout from '../layouts/Layout.astro'; // Layout principal de la página
+import Card from '../components/Card.astro'; // Componente para mostrar tarjetas de proyectos viales
+import Road from '../components/icons/Road.astro'; // Icono para proyectos viales
+import RoadSign from '../components/icons/RoadSign.astro'; // Icono para señalización vial
+import Tools from '../components/icons/Tools.astro'; // Icono para construcción y rehabilitación
+import FileSearch from '../components/icons/FileSearch.astro'; // Icono para diseño y estudios
+import Building from '../components/icons/Building.astro'; // Icono para construcción
+import { projects } from '../data/vias'; // Proyectos viales específicos para esta página
+import { PROJECTS } from '../data/projects'; // Proyectos globales para la galería
+import SectionContainer from '../components/SectionContainer.astro'; // Contenedor de sección genérico
+import CameraIcon from '../components/icons/Camera.astro'; // Icono para la galería de proyectos
+import type { Project } from '../data/projects'; // Tipo para los objetos de proyecto
+import LightboxGallery from '../components/LightboxGallery.astro'; // Componente de galería Lightbox
+import { Image } from 'astro:assets'; // Importar el componente Image de Astro
+import viasWebp from '../assets/vias/vias.webp'; // Importar la imagen de fondo desde src/assets
+import { TAGS } from '../data/projects'; // Importar TAGS para el filtrado
 
+// Mapeo de nombres de iconos a componentes Astro para usar en las tarjetas de proyectos viales
 const icons = {
   Road,
   RoadSign,
   Tools,
 };
+
+const viasProjects = PROJECTS.filter((project: Project) => project.tags.some(tag => tag.name === TAGS.VIAS.name));
+
 ---
+<!--
+  Página de Infraestructura Vial.
+  Presenta los proyectos viales, servicios clave, una llamada a la acción,
+  razones para elegirnos y una galería de proyectos destacados relacionados con vías.
+-->
 <Layout title="Infraestructura Vial" description="Diseñamos, construimos y rehabilitamos vías urbanas y rurales con altos estándares de calidad y seguridad.">
-<section class="relative h-64 flex items-center justify-center text-center p-8" style="background-image: url('/Infraestructura-Vial/vias.webp'); background-size: cover; background-position: center;">
+  <!-- Sección Hero: Título principal y descripción del servicio de infraestructura vial -->
+  <section class="relative h-64 flex items-center justify-center text-center p-8">
+    <Image
+      src={viasWebp}
+      alt="Imagen de fondo de infraestructura vial"
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="eager"
+      decoding="async"
+      widths={[768, 1024, 1440, 1920]}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 100vw"
+    />
     <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-    <div class="relative z-10">
+    <div class="relative z-10 animate-fade-in-up">
       <h1 class="text-4xl md:text-6xl font-bold text-text-light mb-4 tracking-tight">
         Infraestructura Vial
       </h1>
@@ -28,8 +56,8 @@ const icons = {
   </section>
 
   <div class="container mx-auto px-4 py-16">
-    <!-- Sección de Nuestros Proyectos Viales -->
-    <section class="py-16">
+    <!-- Sección de Nuestros Proyectos Viales (usando datos de src/data/vias.ts) -->
+    <section class="py-16 animate-on-scroll">
       <h3 class="text-3xl font-bold text-center mb-12 text-text-dark">Nuestros Proyectos Viales</h3>
       <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 gap-y-8 list-none p-0">
         {projects.map(project => (
@@ -39,34 +67,36 @@ const icons = {
             title={project.title}
             body={project.body}
             Icon={icons[project.icon]}
+            class="animate-fade-in-up"
           />
         ))}
       </ul>
     </section>
 
     <!-- Sección de Servicios Clave -->
-    <section class="py-16">
+    <section class="py-16 animate-on-scroll">
       <h3 class="text-3xl font-bold text-center mb-12 text-text-dark">Nuestros Servicios</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
-        <div class="flex flex-col items-center p-6 border border-border-light rounded-lg shadow-md bg-background-light">
-          <FileSearch class="h-12 w-12 mb-4 text-primary" />
-          <h4 class="text-xl font-bold mb-2 text-text-dark">Diseño y Estudios</h4>
+        <div class="flex flex-col items-center p-6 border border-border-light rounded-lg shadow-md bg-background-light group hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+          <FileSearch class="h-12 w-12 mb-4 text-primary group-hover:text-secondary transition-colors duration-300" />
+          <h4 class="text-xl font-bold mb-2 text-text-dark group-hover:text-secondary transition-colors duration-300">Diseño y Estudios</h4>
           <p class="text-text-dark">Realizamos estudios de factibilidad, diseño geométrico y estructural para garantizar proyectos viales eficientes y seguros.</p>
         </div>
-        <div class="flex flex-col items-center p-6 border border-border-light rounded-lg shadow-md bg-background-light">
-          <Building class="h-12 w-12 mb-4 text-primary" />
-          <h4 class="text-xl font-bold mb-2 text-text-dark">Construcción y Rehabilitación</h4>
+        <div class="flex flex-col items-center p-6 border border-border-light rounded-lg shadow-md bg-background-light group hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+          <Building class="h-12 w-12 mb-4 text-primary group-hover:text-secondary transition-colors duration-300" />
+          <h4 class="text-xl font-bold mb-2 text-text-dark group-hover:text-secondary transition-colors duration-300">Construcción y Rehabilitación</h4>
           <p class="text-text-dark">Ejecutamos la construcción de nuevas vías y la rehabilitación de corredores existentes con materiales de alta calidad.</p>
         </div>
-        <div class="flex flex-col items-center p-6 border border-border-light rounded-lg shadow-md bg-background-light">
-          <RoadSign class="h-12 w-12 mb-4 text-primary" />
-          <h4 class="text-xl font-bold mb-2 text-text-dark">Señalización y Seguridad Vial</h4>
+        <div class="flex flex-col items-center p-6 border border-border-light rounded-lg shadow-md bg-background-light group hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+          <RoadSign class="h-12 w-12 mb-4 text-primary group-hover:text-secondary transition-colors duration-300" />
+          <h4 class="text-xl font-bold mb-2 text-text-dark group-hover:text-secondary transition-colors duration-300">Señalización y Seguridad Vial</h4>
           <p class="text-text-dark">Implementamos sistemas de señalización y medidas de seguridad para proteger a los usuarios de la vía.</p>
         </div>
       </div>
     </section>
     
-    <div class="text-center mt-16">
+    <!-- Sección de Llamada a la Acción (CTA) -->
+    <div class="text-center mt-16 animate-on-scroll">
       <p class="text-lg text-text-dark mb-6 leading-relaxed font-semibold">
         ¿Necesita un proyecto vial exitoso? Conversemos y construyamos el camino juntos.
       </p>
@@ -76,4 +106,69 @@ const icons = {
     </div>
     
   </div>
+
+  <!-- Sección de Por Qué Elegirnos para Infraestructura Vial -->
+  <section class="py-20 bg-white animate-on-scroll">
+    <SectionContainer>
+      <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">¿Por Qué Elegir Nuestra Experiencia Vial?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+        <div class="flex flex-col items-center text-center group">
+          <div class="bg-secondary-light p-5 rounded-full mb-6 transform group-hover:rotate-6 transition-transform duration-300">
+            <Road class="w-14 h-14 text-secondary" />
+          </div>
+          <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-secondary transition-colors duration-300">Durabilidad y Calidad</h3>
+          <p class="text-lg text-gray-700">Construimos vías que resisten el paso del tiempo y el tráfico, utilizando materiales y técnicas de vanguardia.</p>
+        </div>
+        <div class="flex flex-col items-center text-center group" style="transition-delay: 100ms;">
+          <div class="bg-primary-light p-5 rounded-full mb-6 transform group-hover:rotate-6 transition-transform duration-300">
+            <RoadSign class="w-14 h-14 text-primary" />
+          </div>
+          <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-primary transition-colors duration-300">Seguridad Vial Prioritaria</h3>
+          <p class="text-lg text-gray-700">Implementamos diseños y señalización que garantizan la máxima seguridad para conductores y peatones.</p>
+        </div>
+        <div class="flex flex-col items-center text-center group" style="transition-delay: 200ms;">
+          <div class="bg-accent-light p-5 rounded-full mb-6 transform group-hover:rotate-6 transition-transform duration-300">
+            <Tools class="w-14 h-14 text-accent" />
+          </div>
+          <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-accent transition-colors duration-300">Impacto y Desarrollo</h3>
+          <p class="text-lg text-gray-700">Nuestros proyectos viales impulsan el desarrollo económico y social, conectando comunidades y facilitando el transporte.</p>
+        </div>
+      </div>
+    </SectionContainer>
+  </section>
+
+  <!-- Sección de Galería de Proyectos Viales con Lightbox -->
+  <section class="py-20 bg-gray-100">
+    <SectionContainer class="animate-on-scroll">
+      <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">Nuestros Proyectos Viales Destacados</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {viasProjects.map((project: Project, projectIndex: number) => (
+          <div class="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+               onclick={`window.myProjectScripts.openLightbox(${projectIndex}, ${JSON.stringify(project.images)}, '${project.title.replace(/'/g, "\\'")}')`}>
+            <Image
+              src={project.images[0].src}
+              alt={`${project.title} - Main Image`}
+              width={400}
+              height={256}
+              class="object-cover w-full h-64 transform group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <p class="text-white text-xl font-bold text-center p-4">{project.title}</p>
+            </div>
+            {project.images.length > 1 && (
+              <div class="absolute bottom-2 right-2 flex items-center space-x-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded-md">
+                <CameraIcon class="size-4" />
+                <span>{project.images.length}</span>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </SectionContainer>
+  </section>
+
+  <!-- Componente LightboxGallery para mostrar las imágenes de los proyectos -->
+  <LightboxGallery projectImages={[]} projectTitle="" />
 </Layout>

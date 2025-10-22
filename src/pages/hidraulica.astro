@@ -1,64 +1,62 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import LightboxGallery from '../components/LightboxGallery.astro';
+// Importaciones de componentes y utilidades
+import Layout from '../layouts/Layout.astro'; // Layout principal de la página
+import LightboxGallery from '../components/LightboxGallery.astro'; // Componente de galería Lightbox
+import { PROJECTS } from '../data/projects'; // Datos de los proyectos para la galería
+import SectionContainer from '../components/SectionContainer.astro'; // Contenedor de sección genérico
+import WaterDrop from '@/components/icons/WaterDrop.astro'; // Icono para servicios hídricos
+import CheckIcon from '@/components/icons/CheckIcon.astro'; // Icono para sostenibilidad
+import BriefCase from '@/components/icons/BriefCase.astro'; // Icono para gestión
+import FileSearch from '@/components/icons/FileSearch.astro'; // Icono para estudios
+import CameraIcon from '../components/icons/Camera.astro'; // Para la galería de proyectos
+import type { Project } from '../data/projects'; // Tipo para los objetos de proyecto
+import Building from '@/components/icons/Building.astro'; // Icono genérico para modelación hidráulica
+import { Image } from 'astro:assets'; // Importar el componente Image de Astro
+import hidraulicaWebp from '../assets/Recursos-Hídricos/hidraulica.webp'; // Importar la imagen de fondo
+import image1 from '../assets/Recursos-Hídricos/1/1.webp';
+import image1_1 from '../assets/Recursos-Hídricos/1/1.1.webp';
+import image1_2 from '../assets/Recursos-Hídricos/1/1.2.webp';
+import { TAGS } from '../data/projects'; // Importar TAGS para el filtrado
+
+const hidraulicaProjects = PROJECTS.filter((project: Project) => project.tags.some(tag => tag.name === TAGS.HIDRAULICA.name));
+
+const estudioCasoImages = [
+  { src: image1, caption: 'Vista general de la Urbanización Villa Alban' },
+  { src: image1_1, caption: 'Detalle de la infraestructura hidráulica' },
+  { src: image1_2, caption: 'Construcción de redes de alcantarillado' }
+];
 ---
-<Layout title="Recursos Hídricos" description="Desarrollamos proyectos de acueducto, alcantarillado y manejo de aguas lluvias enfocados en la sostenibilidad y el óptimo aprovechamiento del recurso hídrico.">
-<section class="relative h-64 flex items-center justify-center text-center p-8" style="background-image: url('/Recursos-Hídricos/hidraulica.webp'); background-size: cover; background-position: center;">
-    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+<!--
+  Página de Ingeniería de Recursos Hídricos.
+  Presenta soluciones sostenibles para la gestión del agua, incluyendo estudios de caso,
+  servicios integrales, razones para elegirnos y proyectos destacados.
+-->
+<Layout title="Recursos Hídricos - Soluciones Sostenibles para la Gestión del Agua" description="Desarrollamos proyectos de acueducto, alcantarillado y manejo de aguas lluvias enfocados en la sostenibilidad y el óptimo aprovechamiento del recurso hídrico.">
+  <!-- Sección Hero: Título principal y descripción del servicio de recursos hídricos -->
+  <section class="relative h-96 flex items-center justify-center text-center p-8">
+    <Image
+      src={hidraulicaWebp}
+      alt="Imagen de fondo de recursos hídricos"
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="eager"
+      decoding="async"
+      widths={[768, 1024, 1440, 1920]}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 100vw"
+    />
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
     <div class="relative z-10">
-      <h1 class="text-4xl md:text-6xl font-bold text-text-light mb-4 tracking-tight">
-        Recursos Hídricos
+      <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4 tracking-tight leading-tight">
+        Ingeniería de Recursos Hídricos
       </h1>
-      <p class="text-lg md:text-xl text-text-light">
-        Soluciones que fluyen con eficiencia.
+      <p class="text-xl md:text-2xl text-gray-200 max-w-4xl mx-auto mt-4">
+        Diseñamos soluciones innovadoras para la gestión sostenible del agua, garantizando eficiencia y respeto por el medio ambiente.
       </p>
     </div>
   </section>
 
-  <div class="container mx-auto px-4 py-16">
-    <!-- Sección de Servicios Clave como Infografía -->
-    <section class="py-16">
-      <h3 class="text-3xl font-bold text-center mb-12 text-text-dark">Nuestro Proceso de Gestión Hídrica</h3>
-      <div class="relative border-l-4 border-primary/20 ml-4 md:ml-0 md:border-l-0 md:border-t-4">
-        <div class="flex flex-col md:flex-row justify-between">
-          <!-- Paso 1 -->
-          <div class="mb-8 md:mb-0 md:w-1/4">
-            <div class="absolute -left-4 -top-2 md:-top-4 md:left-1/4 transform md:-translate-x-1/2 w-8 h-8 bg-primary rounded-full border-4 border-white"></div>
-            <div class="pl-8 md:pl-0 md:pt-12 text-center">
-              <h4 class="text-xl font-bold text-primary mb-2">1. Estudios y Modelación</h4>
-              <p class="text-text-medium">Análisis hidrológicos y modelación de caudales para un diagnóstico preciso.</p>
-            </div>
-          </div>
-          <!-- Paso 2 -->
-          <div class="mb-8 md:mb-0 md:w-1/4">
-            <div class="absolute -left-4 top-1/3 md:-top-4 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-primary rounded-full border-4 border-white"></div>
-            <div class="pl-8 md:pl-0 md:pt-12 text-center">
-              <h4 class="text-xl font-bold text-primary mb-2">2. Diseño de Redes</h4>
-              <p class="text-text-medium">Diseño de sistemas de acueducto, alcantarillado y manejo de aguas lluvias.</p>
-            </div>
-          </div>
-          <!-- Paso 3 -->
-          <div class="mb-8 md:mb-0 md:w-1/4">
-            <div class="absolute -left-4 top-2/3 md:-top-4 md:left-3/4 transform md:-translate-x-1/2 w-8 h-8 bg-primary rounded-full border-4 border-white"></div>
-            <div class="pl-8 md:pl-0 md:pt-12 text-center">
-              <h4 class="text-xl font-bold text-primary mb-2">3. Construcción e Interventoría</h4>
-              <p class="text-text-medium">Ejecución y supervisión de obras para garantizar la calidad y eficiencia.</p>
-            </div>
-          </div>
-          <!-- Paso 4 -->
-          <div class="md:w-1/4">
-            <div class="absolute -left-4 bottom-0 md:-top-4 md:left-full transform md:-translate-x-1/2 w-8 h-8 bg-primary rounded-full border-4 border-white"></div>
-            <div class="pl-8 md:pl-0 md:pt-12 text-center">
-              <h4 class="text-xl font-bold text-primary mb-2">4. Optimización</h4>
-              <p class="text-text-medium">Mejora y optimización de redes existentes para un rendimiento superior.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sección de Estudio de Caso -->
-    <section class="py-16 bg-background-light rounded-lg shadow-inner">
+  <div class="container mx-auto px-4 py-20">
+    <!-- Sección de Estudio de Caso: Urbanización Villa Alban -->
+    <section class="py-16 bg-background-light rounded-lg shadow-inner animate-on-scroll">
       <h2 class="text-3xl font-bold text-center mb-4 text-primary">Estudio de Caso: Urbanización Villa Alban</h2>
       <p class="text-center text-lg text-text-dark mb-12 max-w-4xl mx-auto">Estudios y diseños para la urbanización en el municipio de Albania, departamento del Caquetá.</p>
       
@@ -77,17 +75,32 @@ import LightboxGallery from '../components/LightboxGallery.astro';
         </div>
       </div>
 
-      <LightboxGallery
-        images={[
-          { src: '/Recursos-Hídricos/1/1.webp', caption: 'Vista general de la Urbanización Villa Alban' },
-          { src: '/Recursos-Hídricos/1/1.1.webp', caption: 'Detalle de la infraestructura hidráulica' },
-          { src: '/Recursos-Hídricos/1/1.2.webp', caption: 'Construcción de redes de alcantarillado' }
-        ]}
-      />
+      <!-- Galería de imágenes para el estudio de caso -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-8">
+        {estudioCasoImages.map((image, index) => (
+          <div
+            class="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            onclick={`window.myProjectScripts.openLightbox(${index}, ${JSON.stringify(estudioCasoImages)}, 'Urbanización Villa Alban')`}
+          >
+            <Image
+              src={image.src}
+              alt={image.caption}
+              width={400}
+              height={256}
+              class="object-cover w-full h-64 transform group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <p class="text-white text-sm font-bold text-center p-2">{image.caption}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
 
-    <!-- Call to Action -->
-    <section class="text-center py-16">
+    <!-- Sección de Llamada a la Acción (CTA) -->
+    <section class="text-center py-16 animate-on-scroll">
       <h4 class="text-2xl text-text-dark mb-4 font-bold">¿Necesita soluciones hídricas eficientes y sostenibles?</h4>
       <p class="text-lg text-text-medium mb-8 max-w-3xl mx-auto">
         Optimice la gestión del agua en su proyecto. Hable con un experto y asegure el éxito con un análisis y presupuesto detallado.
@@ -96,5 +109,160 @@ import LightboxGallery from '../components/LightboxGallery.astro';
         Hable con un Experto
       </a>
     </section>
+
+    <!-- Sección de Nuestros Servicios en Recursos Hídricos -->
+    <section class="py-20 bg-gray-50 animate-on-scroll">
+      <SectionContainer>
+        <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">Nuestros Servicios Integrales en Recursos Hídricos</h2>
+        <div class="max-w-4xl mx-auto space-y-12">
+          <div class="flex items-start gap-6 group">
+            <div class="bg-secondary-light p-4 rounded-full flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300">
+              <WaterDrop class="w-12 h-12 text-secondary" />
+            </div>
+            <div>
+              <h3 class="text-2xl font-semibold mb-2 text-gray-800 group-hover:text-secondary transition-colors duration-300">Acueductos y Potabilización</h3>
+              <p class="text-lg text-gray-700 leading-relaxed">Diseño y construcción de sistemas de abastecimiento de agua potable, desde la captación hasta la distribución, garantizando calidad y continuidad del servicio.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-6 group" style="transition-delay: 100ms;">
+            <div class="bg-accent-light p-4 rounded-full flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300">
+              <BriefCase class="w-12 h-12 text-accent" />
+            </div>
+            <div>
+              <h3 class="text-2xl font-semibold mb-2 text-gray-800 group-hover:text-accent transition-colors duration-300">Alcantarillado Sanitario y Pluvial</h3>
+              <p class="text-lg text-gray-700 leading-relaxed">Soluciones eficientes para la recolección y tratamiento de aguas residuales y el manejo de aguas lluvias, protegiendo el medio ambiente y la salud pública.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-6 group" style="transition-delay: 200ms;">
+            <div class="bg-primary-light p-4 rounded-full flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300">
+              <CheckIcon class="w-12 h-12 text-primary" />
+            </div>
+            <div>
+              <h3 class="text-2xl font-semibold mb-2 text-gray-800 group-hover:text-primary transition-colors duration-300">Tratamiento de Aguas</h3>
+              <p class="text-lg text-gray-700 leading-relaxed">Diseño e implementación de plantas de tratamiento de agua potable y residual, asegurando el cumplimiento de los estándares de calidad más exigentes.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-6 group" style="transition-delay: 300ms;">
+            <div class="bg-primary-light p-4 rounded-full flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300">
+              <FileSearch class="w-12 h-12 text-primary" />
+            </div>
+            <div>
+              <h3 class="text-2xl font-semibold mb-2 text-gray-800 group-hover:text-primary transition-colors duration-300">Estudios Hidrológicos e Hidráulicos</h3>
+              <p class="text-lg text-gray-700 leading-relaxed">Análisis detallados para la planificación y diseño de infraestructuras hídricas, incluyendo modelado y prevención de riesgos de inundación.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-6 group" style="transition-delay: 400ms;">
+            <div class="bg-secondary-light p-4 rounded-full flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300">
+              <WaterDrop class="w-12 h-12 text-secondary" />
+            </div>
+            <div>
+              <h3 class="text-2xl font-semibold mb-2 text-gray-800 group-hover:text-secondary transition-colors duration-300">Drenajes y Control de Inundaciones</h3>
+              <p class="text-lg text-gray-700 leading-relaxed">Soluciones innovadoras para el manejo de excesos de agua, protegiendo áreas urbanas y rurales de los impactos de las inundaciones.</p>
+            </div>
+          </div>
+          <div class="flex  items-start gap-6 group" style="transition-delay: 500ms;">
+            <div class="bg-accent-light p-4 rounded-full flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300">
+              <Building class="w-12 h-12 text-accent" />
+            </div>
+            <div>
+              <h3 class="text-2xl font-semibold mb-2 text-gray-800 group-hover:text-accent transition-colors duration-300">Modelación Hidráulica de Ríos</h3>
+              <p class="text-lg text-gray-700 leading-relaxed">Análisis y simulación del comportamiento de ríos y cuerpos de agua para la gestión de riesgos, diseño de infraestructuras y planificación de recursos hídricos.</p>
+            </div>
+          </div>
+        </div>
+      </SectionContainer>
+    </section>
+
+    <!-- Sección de Por Qué Elegirnos para Recursos Hídricos -->
+    <section class="py-20 bg-white">
+      <SectionContainer class="animate-on-scroll">
+        <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">¿Por Qué Elegir Nuestra Gestión Hídrica?</h2>
+        <div class="space-y-20">
+          <!-- Punto 1: Enfoque en Sostenibilidad -->
+          <div class="flex flex-col md:flex-row items-center gap-12 group">
+            <div class="md:w-1/2 text-center md:text-left">
+              <h3 class="text-3xl font-bold mb-4 text-secondary group-hover:text-secondary transition-colors duration-300">Enfoque en Sostenibilidad</h3>
+              <p class="text-gray-700 text-xl leading-relaxed">Nuestros proyectos no solo resuelven necesidades actuales, sino que también aseguran la viabilidad de los recursos hídricos para el futuro, minimizando el impacto ambiental.</p>
+            </div>
+            <div class="md:w-1/2 flex justify-center items-center">
+              <div class="bg-secondary-light p-8 rounded-full transform group-hover:scale-110 transition-transform duration-300">
+                <WaterDrop class="w-24 h-24 text-secondary" />
+              </div>
+            </div>
+          </div>
+          <!-- Punto 2: Tecnología y Eficiencia -->
+          <div class="flex flex-col md:flex-row-reverse items-center gap-12 group">
+            <div class="md:w-1/2 text-center md:text-left">
+              <h3 class="text-3xl font-bold mb-4 text-accent group-hover:text-accent transition-colors duration-300">Tecnología y Eficiencia</h3>
+              <p class="text-gray-700 text-xl leading-relaxed">Utilizamos las últimas herramientas de modelado y análisis para optimizar el diseño y la operación de sistemas hídricos, garantizando la máxima eficiencia.</p>
+            </div>
+            <div class="md:w-1/2 flex justify-center items-center">
+              <div class="bg-accent-light p-8 rounded-full transform group-hover:scale-110 transition-transform duration-300">
+                <CheckIcon class="w-24 h-24 text-accent" />
+              </div>
+            </div>
+          </div>
+          <!-- Punto 3: Experiencia Comprobada -->
+          <div class="flex flex-col md:flex-row items-center gap-12 group">
+            <div class="md:w-1/2 text-center md:text-left">
+              <h3 class="text-3xl font-bold mb-4 text-primary group-hover:text-primary transition-colors duration-300">Experiencia Comprobada</h3>
+              <p class="text-lg text-gray-700 text-xl leading-relaxed">Contamos con un equipo de expertos con amplia trayectoria en proyectos hídricos complejos, ofreciendo soluciones robustas y confiables.</p>
+            </div>
+            <div class="md:w-1/2 flex justify-center items-center">
+              <div class="bg-primary-light p-8 rounded-full transform group-hover:scale-110 transition-transform duration-300">
+                <BriefCase class="w-24 h-24 text-primary" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </SectionContainer>
+    </section>
+
+    <!-- Sección de Proyectos Hídricos Destacados -->
+    <section class="py-20 bg-gray-100">
+      <SectionContainer class="animate-on-scroll">
+        <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">Proyectos Hídricos que Marcan la Diferencia</h2>
+        {hidraulicaProjects.map((project: Project, projectIndex: number) => (
+          <div class={`flex flex-col ${projectIndex % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 mb-20 group`}>
+            <div class="md:w-1/2 relative overflow-hidden rounded-lg shadow-xl transform group-hover:scale-105 transition-transform duration-300 cursor-pointer"
+                 onclick={`window.myProjectScripts.openLightbox(0, ${JSON.stringify(project.images)}, '${project.title.replace(/'/g, "\\'")}')`}>
+              <Image
+                src={project.images[0].src}
+                alt={`${project.title} - Main Image`}
+                width={600}
+                height={320}
+                class="object-cover w-full h-80"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p class="text-white text-2xl font-bold text-center p-4">{project.title}</p>
+              </div>
+              {project.images.length > 1 && (
+                <div class="absolute bottom-4 right-4 flex items-center space-x-2 bg-black bg-opacity-60 text-white text-sm px-3 py-1 rounded-md">
+                  <CameraIcon class="size-5" />
+                  <span>{project.images.length} Imágenes</span>
+                </div>
+              )}
+            </div>
+            <div class="md:w-1/2 text-center md:text-left">
+              <h3 class="text-3xl font-bold mb-4 text-gray-800 group-hover:text-primary transition-colors duration-300">{project.title}</h3>
+              <p class="text-xl text-gray-700 leading-relaxed mb-6">{project.description}</p>
+              <button
+                class="inline-block bg-primary text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-primary transition duration-300 text-lg"
+                onclick={`window.myProjectScripts.openLightbox(0, ${JSON.stringify(project.images)}, '${project.title.replace(/'/g, "\\'")}')`}
+              >
+                Ver Detalles del Proyecto
+              </button>
+            </div>
+          </div>
+        ))}
+      </SectionContainer>
+    </section>
+
+    
+
+    <!-- Componente LightboxGallery para mostrar las imágenes de los proyectos -->
+    <LightboxGallery projectImages={[]} projectTitle="" />
   </div>
 </Layout>

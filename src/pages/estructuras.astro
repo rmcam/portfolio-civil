@@ -1,121 +1,191 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import LightboxGallery from '../components/LightboxGallery.astro';
+// Importaciones de componentes y utilidades
+import Layout from '../layouts/Layout.astro'; // Layout principal de la página
+import { PROJECTS } from '../data/projects'; // Datos de los proyectos para la galería
+import Building from '@/components/icons/Building.astro'; // Icono para diseño de edificaciones
+import Road from '@/components/icons/Road.astro'; // Icono para puentes
+import WaterDrop from '@/components/icons/WaterDrop.astro'; // Icono para obras hidráulicas
+import CheckIcon from '@/components/icons/CheckIcon.astro'; // Icono de verificación
+import BriefCase from '@/components/icons/BriefCase.astro'; // Icono para análisis sísmico
+import FileSearch from '@/components/icons/FileSearch.astro'; // Icono para modelado BIM
+import CameraIcon from '@/components/icons/Camera.astro'; // Icono para la galería de proyectos
+import type { Project } from '../data/projects'; // Tipo para los objetos de proyecto
+import LightboxGallery from '../components/LightboxGallery.astro'; // Componente de galería Lightbox
+import { Image } from 'astro:assets'; // Importar el componente Image de Astro
+import estructurasWebp from '../assets/Estructuras/Estructuras.webp'; // Importar la imagen de fondo
+import estructuraConcreto4 from '../assets/Estructuras/Estructura Concreto 4.webp';
+import estructuraMetalicaCubierta from '../assets/Estructuras/Estructura Metalica Cubierta.webp';
+import estructuraConcreto from '../assets/Estructuras/Estructura Concreto.webp';
+import { TAGS } from '../data/projects'; // Importar TAGS para el filtrado
+
+const estructurasProjects = PROJECTS.filter((project: Project) => project.tags.some(tag => tag.name === TAGS.ESTRUCTURAS.name));
+
 ---
-<Layout title="Estructuras" description="Diseñamos la base de su proyecto con seguridad y precisión.">
-<section class="relative h-64 flex items-center justify-center text-center p-8" style="background-image: url('/Estructuras/Estructuras.webp'); background-size: cover; background-position: center;">
-    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+<!--
+  Página de Estructuras: Diseño y Cálculo Estructural de Vanguardia.
+  Presenta el enfoque, servicios clave y una galería de proyectos destacados
+  relacionados con la ingeniería estructural.
+-->
+<Layout title="Estructuras - Diseño y Cálculo Estructural de Vanguardia" description="Expertos en diseño y cálculo estructural para edificaciones, puentes y obras de contención. Garantizamos seguridad, eficiencia e innovación en cada proyecto.">
+  <!-- Sección Hero: Título principal y descripción del servicio de estructuras -->
+  <section class="relative h-96 flex items-center justify-center text-center p-8">
+    <Image
+      src={estructurasWebp}
+      alt="Imagen de fondo de estructuras"
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="eager"
+      decoding="async"
+      widths={[768, 1024, 1440, 1920]}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 100vw"
+    />
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
     <div class="relative z-10">
-      <h1 class="text-4xl md:text-6xl font-bold text-text-light mb-4 tracking-tight">
-        Estructuras
+      <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4 tracking-tight leading-tight">
+        Ingeniería Estructural de Vanguardia
       </h1>
-      <p class="text-lg md:text-xl text-text-light">
-        Diseñamos la base de su proyecto con seguridad y precisión.
+      <p class="text-xl md:text-2xl text-gray-200 max-w-4xl mx-auto mt-4">
+        Diseñamos y construimos el futuro, cimiento a cimiento, con seguridad, innovación y precisión inquebrantable.
       </p>
     </div>
   </section>
 
-  <div class="container mx-auto px-4 py-16">
-    <!-- Sección de Nuestro Enfoque -->
-    <section class="py-16 bg-background-light rounded-lg shadow-inner">
-      <h3 class="text-3xl font-bold text-center mb-12 text-text-dark">Nuestro Enfoque en Estructuras</h3>
-      <div class="space-y-16 px-8">
+  <div class="container mx-auto px-4 py-20">
+    <!-- Sección de Nuestro Compromiso: Cimientos Sólidos para sus Ideas -->
+    <section class="py-16 bg-white rounded-lg shadow-inner animate-on-scroll">
+      <h3 class="text-4xl font-bold text-center mb-16 text-gray-800">Nuestro Compromiso: Cimientos Sólidos para sus Ideas</h3>
+      <div class="space-y-20 px-8">
         <!-- Primer Elemento: Seguridad y Resistencia -->
-        <div class="flex flex-col md:flex-row items-center gap-8">
+        <div class="flex flex-col md:flex-row items-center gap-12 group">
           <div class="md:w-1/2 text-center md:text-left">
-            <h4 class="text-2xl font-bold mb-4 text-primary">Seguridad y Resistencia</h4>
-            <p class="text-text-medium text-lg">Diseños que garantizan la máxima seguridad y durabilidad, cumpliendo con las normativas más exigentes para proteger su inversión y a las personas.</p>
+            <h4 class="text-3xl font-bold mb-4 text-primary group-hover:text-primary transition-colors duration-300">Seguridad Inquebrantable</h4>
+            <p class="text-gray-700 text-xl leading-relaxed">Nuestros diseños priorizan la seguridad estructural, superando las normativas más estrictas para proteger vidas y bienes. Cada cálculo es una promesa de estabilidad.</p>
           </div>
-          <div class="md:w-1/2">
-            <img src="/Estructuras/Estructura Concreto 4.webp" alt="Seguridad y Resistencia" class="rounded-lg shadow-lg w-full h-auto object-cover">
+          <div class="md:w-1/2 relative overflow-hidden rounded-lg shadow-xl transform group-hover:scale-105 transition-transform duration-300">
+            <Image src={estructuraConcreto4} alt="Seguridad y Resistencia" width={600} height={400} class="w-full h-auto object-cover" loading="lazy" decoding="async" />
+            <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-0 transition-opacity duration-300"></div>
           </div>
         </div>
         
         <!-- Segundo Elemento: Innovación y Eficiencia -->
-        <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+        <div class="flex flex-col md:flex-row-reverse items-center gap-12 group">
           <div class="md:w-1/2 text-center md:text-left">
-            <h4 class="text-2xl font-bold mb-4 text-primary">Innovación y Eficiencia</h4>
-            <p class="text-text-medium text-lg">Aplicamos las últimas tecnologías y métodos constructivos para optimizar recursos, reducir tiempos de ejecución y maximizar la eficiencia de su proyecto.</p>
+            <h4 class="text-3xl font-bold mb-4 text-accent group-hover:text-accent transition-colors duration-300">Innovación y Optimización</h4>
+            <p class="text-gray-700 text-xl leading-relaxed">Integramos las últimas tecnologías y metodologías BIM para diseños eficientes, optimizando recursos y reduciendo costos sin comprometer la calidad.</p>
           </div>
-          <div class="md:w-1/2">
-            <img src="/Estructuras/Estructura Metalica Cubierta.webp" alt="Innovación y Eficiencia" class="rounded-lg shadow-lg w-full h-auto object-cover">
+          <div class="md:w-1/2 relative overflow-hidden rounded-lg shadow-xl transform group-hover:scale-105 transition-transform duration-300">
+            <Image src={estructuraMetalicaCubierta} alt="Innovación y Eficiencia" width={600} height={400} class="w-full h-auto object-cover" loading="lazy" decoding="async" />
+            <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-0 transition-opacity duration-300"></div>
           </div>
         </div>
 
         <!-- Tercer Elemento: Adaptabilidad y Personalización -->
-        <div class="flex flex-col md:flex-row items-center gap-8">
+        <div class="flex flex-col md:flex-row items-center gap-12 group">
           <div class="md:w-1/2 text-center md:text-left">
-            <h4 class="text-2xl font-bold mb-4 text-primary">Adaptabilidad y Personalización</h4>
-            <p class="text-text-medium text-lg">Creamos soluciones a medida para cada proyecto, adaptándonos a las necesidades específicas del cliente, el entorno y los desafíos únicos de la obra.</p>
+            <h4 class="text-3xl font-bold mb-4 text-secondary group-hover:text-secondary transition-colors duration-300">Soluciones a Medida</h4>
+            <p class="text-lg text-gray-700 text-xl leading-relaxed">Cada proyecto es un desafío único. Ofrecemos soluciones estructurales personalizadas que se adaptan a sus visiones arquitectónicas y requisitos específicos.</p>
           </div>
-          <div class="md:w-1/2">
-            <img src="/Estructuras/Estructura Concreto.webp" alt="Adaptabilidad y Personalización" class="rounded-lg shadow-lg w-full h-auto object-cover">
+          <div class="md:w-1/2 relative overflow-hidden rounded-lg shadow-xl transform group-hover:scale-105 transition-transform duration-300">
+            <Image src={estructuraConcreto} alt="Adaptabilidad y Personalización" width={600} height={400} class="w-full h-auto object-cover" loading="lazy" decoding="async" />
+            <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-0 transition-opacity duration-300"></div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Sección de Servicios Clave -->
-    <section class="py-16">
-      <h3 class="text-3xl font-bold text-center mb-12 text-text-dark">Nuestros Servicios Estructurales</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 gap-y-8">
-        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold mb-2 text-primary">Diseño de Edificaciones</h4>
-          <p class="text-text-medium">Creamos estructuras seguras y eficientes para todo tipo de edificaciones.</p>
+    <section class="py-20 bg-gray-50 animate-on-scroll">
+      <h3 class="text-4xl font-bold text-center mb-16 text-gray-800">Nuestros Servicios Estructurales Integrales</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+        <div class="flex flex-col items-center text-center group">
+          <div class="bg-secondary-light p-5 rounded-full mb-6 transform group-hover:scale-110 transition-transform duration-300">
+            <Building class="w-14 h-14 text-secondary" />
+          </div>
+          <h4 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-secondary transition-colors duration-300">Diseño de Edificaciones</h4>
+          <p class="text-lg text-gray-700">Desde rascacielos hasta viviendas, creamos estructuras seguras, estéticas y funcionales.</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold mb-2 text-primary">Puentes Vehiculares y Peatonales</h4>
-          <p class="text-text-medium">Diseño y cálculo de puentes que conectan comunidades de forma segura.</p>
+        <div class="flex flex-col items-center text-center group">
+          <div class="bg-accent-light p-5 rounded-full mb-6 transform group-hover:scale-110 transition-transform duration-300">
+            <Road class="w-14 h-14 text-accent" />
+          </div>
+          <h4 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-accent transition-colors duration-300">Puentes y Obras Hidráulicas</h4>
+          <p class="text-lg text-gray-700">Diseño innovador y cálculo preciso para infraestructuras que conectan y perduran.</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold mb-2 text-primary">Obras de Contención</h4>
-          <p class="text-text-medium">Soluciones para la estabilización de taludes y control de la erosión.</p>
+        <div class="flex flex-col items-center text-center group">
+          <div class="bg-primary-light p-5 rounded-full mb-6 transform group-hover:scale-110 transition-transform duration-300">
+            <WaterDrop class="w-14 h-14 text-primary" />
+          </div>
+          <h4 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-primary transition-colors duration-300">Obras de Contención</h4>
+          <p class="text-lg text-gray-700">Soluciones robustas para muros de contención, taludes y estructuras subterráneas.</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold mb-2 text-primary">Refuerzo Estructural</h4>
-          <p class="text-text-medium">Rehabilitación y refuerzo de estructuras existentes para prolongar su vida útil.</p>
+        <div class="flex flex-col items-center text-center group">
+          <div class="bg-primary-light p-5 rounded-full mb-6 transform group-hover:scale-110 transition-transform duration-300">
+            <CheckIcon class="w-14 h-14 text-primary" />
+          </div>
+          <h4 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-primary transition-colors duration-300">Refuerzo y Rehabilitación</h4>
+          <p class="text-lg text-gray-700">Extendemos la vida útil de estructuras existentes con técnicas de refuerzo avanzadas.</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold mb-2 text-primary">Supervisión Técnica</h4>
-          <p class="text-text-medium">Garantizamos la correcta ejecución de las obras estructurales.</p>
+        <div class="flex flex-col items-center text-center group">
+          <div class="bg-secondary-light p-5 rounded-full mb-6 transform group-hover:scale-110 transition-transform duration-300">
+            <BriefCase class="w-14 h-14 text-secondary" />
+          </div>
+          <h4 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-secondary transition-colors duration-300">Análisis Sísmico Avanzado</h4>
+          <p class="text-lg text-gray-700">Evaluación y diseño de estructuras resistentes a eventos sísmicos, garantizando la seguridad.</p>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold mb-2 text-primary">Modelado y Análisis</h4>
-          <p class="text-text-medium">Utilizamos software especializado para análisis estructurales precisos.</p>
+        <div class="flex flex-col items-center text-center group">
+          <div class="bg-accent-light p-5 rounded-full mb-6 transform group-hover:scale-110 transition-transform duration-300">
+            <FileSearch class="w-14 h-14 text-accent" />
+          </div>
+          <h4 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-accent transition-colors duration-300">Modelado BIM Estructural</h4>
+          <p class="text-lg text-gray-700">Optimización del diseño y la construcción mediante modelos 3D inteligentes y colaborativos.</p>
         </div>
-      </div>
-
-      <div class="text-center mt-16">
-        <h4 class="text-2xl text-text-dark mb-4 font-bold">¿Listo para construir con cimientos sólidos?</h4>
-        <p class="text-lg text-text-medium mb-8 max-w-3xl mx-auto">
-          Hablemos de su proyecto y asegure su inversión a largo plazo. Transforme sus planos en obras maestras de la ingeniería.
-        </p>
-        <a href="/contacto" class="inline-block bg-primary text-white font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-secondary transition duration-300 text-lg">
-          Solicite una Consultoría Estructural
-        </a>
       </div>
     </section>
+
+    <!-- Sección de Llamada a la Acción (CTA) -->
+    <section class="bg-primary text-white rounded-lg py-16 text-center mt-20 animate-on-scroll">
+      <h2 class="text-4xl font-bold mb-6">¿Listo para Construir con Confianza?</h2>
+      <p class="text-xl mb-10 max-w-3xl mx-auto leading-relaxed">
+        Permítanos ser el pilar de su próximo gran proyecto. Contáctenos hoy para una consulta estructural sin compromiso.
+      </p>
+      <a href="/contacto" class="bg-white text-primary font-bold py-4 px-6 sm:px-10 rounded-full shadow-lg hover:bg-gray-100 transition duration-300 text-lg sm:text-xl uppercase tracking-wide whitespace-normal inline-block max-w-full">
+        Hablemos de su Proyecto Estructural
+      </a>
+    </section>
   </div>
-<section class="py-8 px-8">
-  <h3 class="text-3xl font-bold text-center mb-12 text-text-dark">Galería de Proyectos Estructurales</h3>
-  <LightboxGallery 
-    images={[
-      { src: '/Estructuras/Estructura Concreto 2.webp', caption: 'Edificio de Concreto Reforzado' },
-      { src: '/Estructuras/Estructura Concreto 3.webp', caption: 'Puente de Concreto' },
-      { src: '/Estructuras/Estructura Concreto 4.webp', caption: 'Sistema Estructural de Concreto' },
-      { src: '/Estructuras/Estructura Concreto.webp', caption: 'Base y Cimentación' },
-      { src: '/Estructuras/Estructura Metalica Cubierta 2.webp', caption: 'Cubierta Metálica Curva' },
-      { src: '/Estructuras/Estructura Metalica Cubierta.webp', caption: 'Nave Industrial Metálica' }
-    ]}
-  />
-  <div class="text-center mt-12">
-    <h4 class="text-2xl text-text-dark mb-4 font-bold">Inicie su obra con total confianza</h4>
-    <p class="text-lg text-text-medium mb-8 max-w-3xl mx-auto">
-      Asegure la integridad de su proyecto. Cotice nuestros servicios y dé el primer paso hacia una construcción segura y duradera.
-    </p>
-    <a href="/contacto" class="inline-block bg-primary text-white font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-secondary transition duration-300 text-lg">
-      Pida su Presupuesto Ahora
-    </a>
-  </div>
-</section>
+
+  <!-- Sección de Galería de Proyectos Estructurales -->
+  <section class="py-20 bg-gray-100">
+    <div class="container mx-auto px-4">
+      <h3 class="text-4xl font-bold text-center mb-16 text-gray-800 animate-on-scroll">Nuestros Proyectos Estructurales Destacados</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Aquí se mapearán los proyectos de estructuras */}
+        {estructurasProjects.map((project: Project, projectIndex: number) => (
+          <div class="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+               onclick={`window.myProjectScripts.openLightbox(0, ${JSON.stringify(project.images)}, '${project.title.replace(/'/g, "\\'")}')`}>
+            <Image
+              src={project.images[0].src}
+              alt={`${project.title} - Main Image`}
+              width={400}
+              height={256}
+              class="object-cover w-full h-64 transform group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <p class="text-white text-xl font-bold text-center p-4">{project.title}</p>
+            </div>
+            {project.images.length > 1 && (
+              <div class="absolute bottom-2 right-2 flex items-center space-x-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded-md">
+                <CameraIcon class="size-4" />
+                <span>{project.images.length}</span>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Componente LightboxGallery para mostrar las imágenes de los proyectos -->
+  <LightboxGallery projectImages={[]} projectTitle="" />
 </Layout>

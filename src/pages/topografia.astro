@@ -1,60 +1,197 @@
 ---
-import Layout from '../layouts/Layout.astro';
+// Importaciones de componentes y utilidades
+import Layout from '../layouts/Layout.astro'; // Layout principal de la página
+import SectionContainer from '../components/SectionContainer.astro'; // Contenedor de sección genérico
+import { PROJECTS, TAGS } from '../data/projects'; // Datos de los proyectos y etiquetas
+import FileSearch from '../components/icons/FileSearch.astro'; // Icono para levantamientos y planos
+import RoadSign from '../components/icons/RoadSign.astro'; // Icono para georeferenciación
+import Tools from '../components/icons/Tools.astro'; // Icono para replanteo de obras
+import Building from '../components/icons/Building.astro'; // Icono para cálculo de volúmenes y modelos digitales
+import CameraIcon from '../components/icons/Camera.astro'; // Icono para la galería de proyectos
+import type { Project } from '../data/projects'; // Tipo para los objetos de proyecto
+import LightboxGallery from '../components/LightboxGallery.astro'; // Componente de galería Lightbox
+import { Image } from 'astro:assets'; // Importar el componente Image de Astro
+import topografiaWebp from '../assets/Topografía/topografia.webp'; // Importar la imagen de fondo
+
+// Filtra los proyectos para obtener solo los de topografía
+const allTopografiaProjects = [
+  ...PROJECTS.filter(project => project.tags.some(tag => tag.name === TAGS.TOPOGRAFIA.name))
+];
 ---
+<!--
+  Página de Topografía: Precisión que transforma planos en realidad.
+  Presenta los servicios clave, metodología de trabajo, una llamada a la acción
+  y una galería de proyectos destacados relacionados con la topografía.
+-->
 <Layout title="Topografía" description="Precisión que transforma planos en realidad.">
-<section class="relative h-64 flex items-center justify-center text-center p-8" style="background-image: url('/Topografía/topografia.webp'); background-size: cover; background-position: center;">
-    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-    <div class="relative z-10">
-      <h1 class="text-4xl md:text-6xl font-bold text-text-light mb-4 tracking-tight">
+  <!-- Sección Hero: Título principal y descripción del servicio de topografía -->
+  <section class="relative h-80 flex items-center justify-center text-center p-8">
+    <Image
+      src={topografiaWebp}
+      alt="Imagen de fondo de topografía"
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="eager"
+      decoding="async"
+      widths={[768, 1024, 1440, 1920]}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 100vw"
+    />
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+    <div class="relative z-10 animate-fade-in-up">
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight">
         Topografía
       </h1>
-      <p class="text-lg md:text-xl text-text-light">
+      <p class="text-xl md:text-2xl text-text-light">
         Precisión que transforma planos en realidad.
       </p>
     </div>
   </section>
 
-  <div class="container mx-auto px-4 py-16">
+  <div class="container mx-auto px-4 py-20">
 
     <!-- Sección de Servicios Clave con Iconos -->
-    <section class="py-16">
-      <h3 class="text-3xl font-bold text-center mb-12 text-text-dark">Nuestros Servicios de Topografía</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Servicio 1 -->
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold text-primary mb-2">Levantamientos Planimétricos y Altimétricos</h4>
+    <section class="py-20 animate-on-scroll">
+      <h3 class="text-4xl font-bold text-center mb-16 text-text-dark">Nuestros Servicios de Topografía</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <!-- Servicio 1: Levantamientos Planimétricos y Altimétricos -->
+        <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
+          <div class="mb-4 inline-block p-4 bg-primary-light rounded-full">
+            <FileSearch class="w-10 h-10 text-primary" />
+          </div>
+          <h4 class="text-2xl font-semibold text-primary mb-3">Levantamientos Planimétricos y Altimétricos</h4>
+          <p class="text-text-medium">Realizamos levantamientos detallados para obtener información precisa del terreno, esencial para el diseño y planificación de cualquier proyecto de ingeniería civil.</p>
         </div>
-        <!-- Servicio 2 -->
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold text-primary mb-2">Georreferenciación GPS</h4>
+        <!-- Servicio 2: Georeferenciación con GNSS -->
+        <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
+          <div class="mb-4 inline-block p-4 bg-primary-light rounded-full">
+            <RoadSign class="w-10 h-10 text-primary" />
+          </div>
+          <h4 class="text-2xl font-semibold text-primary mb-3">Georeferenciación con GNSS</h4>
+          <p class="text-text-medium">Utilizamos tecnología GNSS de alta precisión para la georreferenciación de puntos y proyectos, asegurando la correcta ubicación espacial y compatibilidad con sistemas de información geográfica.</p>
         </div>
-        <!-- Servicio 3 -->
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold text-primary mb-2">Replanteo de Obras</h4>
+        <!-- Servicio 3: Replanteo de Obras -->
+        <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
+          <div class="mb-4 inline-block p-4 bg-primary-light rounded-full">
+            <Tools class="w-10 h-10 text-primary" />
+          </div>
+          <h4 class="text-2xl font-semibold text-primary mb-3">Replanteo de Obras</h4>
+          <p class="text-text-medium">Materializamos en campo los diseños de ingeniería, garantizando que la construcción se ejecute conforme a los planos y especificaciones técnicas.</p>
         </div>
-        <!-- Servicio 4 -->
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold text-primary mb-2">Cálculo de Volúmenes</h4>
+        <!-- Servicio 4: Cálculo de Volúmenes -->
+        <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
+          <div class="mb-4 inline-block p-4 bg-primary-light rounded-full">
+            <Building class="w-10 h-10 text-primary" />
+          </div>
+          <h4 class="text-2xl font-semibold text-primary mb-3">Cálculo de Volúmenes</h4>
+          <p class="text-text-medium">Determinamos volúmenes de corte y relleno con exactitud, optimizando el movimiento de tierras y la gestión de recursos en proyectos de construcción.</p>
         </div>
-        <!-- Servicio 5 -->
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold text-primary mb-2">Elaboración de Planos</h4>
+        <!-- Servicio 5: Elaboración de Planos -->
+        <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
+          <div class="mb-4 inline-block p-4 bg-primary-light rounded-full">
+            <FileSearch class="w-10 h-10 text-primary" />
+          </div>
+          <h4 class="text-2xl font-semibold text-primary mb-3">Elaboración de Planos</h4>
+          <p class="text-text-medium">Creamos planos topográficos claros y precisos, incluyendo curvas de nivel, perfiles y secciones, fundamentales para la visualización y ejecución de proyectos.</p>
         </div>
-        <!-- Servicio 6 -->
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow duration-300">
-          <h4 class="text-xl font-semibold text-primary mb-2">Modelos Digitales de Terreno</h4>
+        <!-- Servicio 6: Modelos Digitales de Terreno -->
+        <div class="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
+          <div class="mb-4 inline-block p-4 bg-primary-light rounded-full">
+            <Building class="w-10 h-10 text-primary" />
+          </div>
+          <h4 class="text-2xl font-semibold text-primary mb-3">Modelos Digitales de Terreno</h4>
+          <p class="text-text-medium">Generamos modelos 3D del terreno para análisis avanzados, simulaciones y planificación de proyectos, ofreciendo una comprensión profunda de la topografía.</p>
         </div>
-      </div>
-
-      <div class="text-center mt-16">
-        <h4 class="text-2xl text-text-dark mb-4 font-bold">La precisión es la base del éxito.</h4>
-        <p class="text-lg text-text-medium mb-8 max-w-3xl mx-auto">
-          Inicie su proyecto con datos topográficos exactos. No deje nada al azar y transforme el terreno en oportunidades.
-        </p>
-        <a href="/contacto" class="inline-block bg-primary text-white font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-secondary transition duration-300 text-lg">
-          Solicite su Levantamiento
-        </a>
       </div>
     </section>
+
+    <!-- Sección de Metodología de Trabajo -->
+    <section class="py-20 bg-background-light rounded-xl animate-on-scroll">
+      <h3 class="text-4xl font-bold text-center mb-16 text-text-dark">Nuestra Metodología de Trabajo</h3>
+      <div class="max-w-4xl mx-auto space-y-12 text-text-medium">
+        <div class="flex items-start space-x-6">
+          <div class="flex-shrink-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg">1</div>
+          <div>
+            <h4 class="text-2xl font-semibold text-text-dark mb-3">Planificación y Recopilación de Datos</h4>
+            <p>Definimos los objetivos del levantamiento, seleccionamos la instrumentación adecuada y recopilamos datos preliminares del área de estudio para asegurar la eficiencia en campo.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-6">
+          <div class="flex-shrink-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg">2</div>
+          <div>
+            <h4 class="text-2xl font-semibold text-text-dark mb-3">Ejecución en Campo</h4>
+            <p>Realizamos los levantamientos topográficos utilizando equipos de última generación (estaciones totales, GPS RTK, drones), siguiendo protocolos estrictos para garantizar la precisión y fiabilidad de los datos.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-6">
+          <div class="flex-shrink-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg">3</div>
+          <div>
+            <h4 class="text-2xl font-semibold text-text-dark mb-3">Procesamiento y Análisis de Datos</h4>
+            <p>Los datos recopilados son procesados con software especializado para generar modelos digitales, curvas de nivel, perfiles y secciones, realizando un análisis exhaustivo para la toma de decisiones.</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-6">
+          <div class="flex-shrink-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg">4</div>
+          <div>
+            <h4 class="text-2xl font-semibold text-text-dark mb-3">Entrega de Resultados y Asesoría</h4>
+            <p>Entregamos productos finales como planos topográficos, informes técnicos y modelos 3D, y ofrecemos asesoría continua para la correcta interpretación y aplicación de la información.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Llamada a la Acción -->
+    <section class="text-center py-20 animate-on-scroll">
+      <h4 class="text-3xl text-text-dark mb-6 font-bold">La precisión es la base del éxito.</h4>
+      <p class="text-xl text-text-medium mb-10 max-w-3xl mx-auto">
+        Inicie su proyecto con datos topográficos exactos. No deje nada al azar y transforme el terreno en oportunidades.
+      </p>
+      <a href="/contacto" class="inline-block bg-primary text-white font-bold py-5 px-10 rounded-lg shadow-lg hover:bg-secondary transition duration-300 text-xl transform hover:scale-105">
+        Solicite su Levantamiento
+      </a>
+    </section>
+
+    <!-- Sección de Proyectos Destacados -->
+    <section class="py-20 bg-gray-100">
+      <SectionContainer class="animate-on-scroll">
+        <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">Proyectos Destacados en Topografía</h2>
+        {allTopografiaProjects.map((project: Project, projectIndex: number) => (
+          <div class={`flex flex-col ${projectIndex % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 mb-20 group`}>
+            <div class="md:w-1/2 relative overflow-hidden rounded-lg shadow-xl transform group-hover:scale-105 transition-transform duration-300 cursor-pointer"
+                 onclick={`window.myProjectScripts.openLightbox(${projectIndex}, ${JSON.stringify(project.images)}, '${project.title.replace(/'/g, "\\'")}')`}>
+              <Image
+                src={project.images[0].src}
+                alt={`${project.title} - Main Image`}
+                width={600}
+                height={320}
+                class="object-cover w-full h-80"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p class="text-white text-2xl font-bold text-center p-4">{project.title}</p>
+              </div>
+              {project.images.length > 1 && (
+                <div class="absolute bottom-4 right-4 flex items-center space-x-2 bg-black bg-opacity-60 text-white text-sm px-3 py-1 rounded-md">
+                  <CameraIcon class="size-5" />
+                  <span>{project.images.length} Imágenes</span>
+                </div>
+              )}
+            </div>
+            <div class="md:w-1/2 text-center md:text-left">
+              <h3 class="text-3xl font-bold mb-4 text-gray-800 group-hover:text-primary transition-colors duration-300">{project.title}</h3>
+              <p class="text-xl text-gray-700 leading-relaxed mb-6">{project.description}</p>
+              <button
+                class="inline-block bg-primary text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-primary transition duration-300 text-lg"
+                onclick={`window.myProjectScripts.openLightbox(${projectIndex}, ${JSON.stringify(project.images)}, '${project.title.replace(/'/g, "\\'")}')`}
+              >
+                Ver Detalles del Proyecto
+              </button>
+            </div>
+          </div>
+        ))}
+      </SectionContainer>
+    </section>
+
+    <!-- Componente LightboxGallery para mostrar las imágenes de los proyectos -->
+    <LightboxGallery projectImages={[]} projectTitle="" />
   </div>
 </Layout>

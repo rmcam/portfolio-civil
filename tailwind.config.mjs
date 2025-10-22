@@ -27,6 +27,10 @@ export default {
 				'text-dark': '#212529', // Gris oscuro para texto principal
 				'text-medium': '#6C757D', // Gris medio para texto secundario
 				'text-light': '#DEE2E6', // Gris claro para texto en fondos oscuros
+				// Añadir variantes más claras/oscuras de los colores principales para fondos de iconos
+				'primary-light': '#FEE2E2', // Rojo muy claro
+				'secondary-light': '#DBEAFE', // Azul muy claro
+				'accent-light': '#D1FAE5', // Verde muy claro
 			},
 		},
 	},

@@ -1,53 +1,28 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import LightboxGallery from '../../components/LightboxGallery.astro';
-import fs from 'fs';
-import path from 'path';
+import { projects } from '../../data/vias';
+import { Image } from 'astro:assets'; // Importar el componente Image de Astro
 
 export async function getStaticPaths() {
-const projectsDir = path.resolve('public/Infraestructura-Vial');
-  const projectFolders = fs.readdirSync(projectsDir).filter(file => 
-    fs.statSync(path.join(projectsDir, file)).isDirectory()
-  );
-
-  return projectFolders.map(id => ({
-    params: { id },
+  return projects.map(project => ({
+    params: { id: project.id },
   }));
 }
 
 const { id } = Astro.params;
+const project = projects.find(p => p.id === id);
 
-const projectDir = path.resolve(`public/Infraestructura-Vial/${id}`);
-
-interface ProjectDetail {
-  title: string;
-  description: string;
+if (!project) {
+  return Astro.redirect('/404'); // O manejar el error de otra manera
 }
 
-const projectDetails: { [key: string]: ProjectDetail } = {
-  '1': {
-    title: "Mejoramiento de Vías Urbanas en Solita, Caquetá",
-    description: "Este proyecto se centró en la renovación de la infraestructura vial del municipio de Solita, mediante la construcción de pavimento hidráulico de alta durabilidad y la ejecución de obras complementarias esenciales para garantizar la seguridad y mejorar el flujo vehicular en la zona.",
-  },
-  '2': {
-    title: "Pavimentación en Solita y Valparaíso, Caquetá",
-    description: "Se llevó a cabo el mejoramiento de vías urbanas clave en los municipios de Solita y Valparaíso. El proyecto incluyó la pavimentación con concreto hidráulico y la realización de obras complementarias para modernizar la infraestructura y beneficiar a ambas comunidades.",
-  },
-  '3': {
-    title: "Pavimentación en C.P. Versalles, Albania",
-    description: "El proyecto consistió en el mejoramiento de una vía urbana principal en el centro poblado de Versalles, municipio de Albania, utilizando pavimentación de concreto rígido para asegurar una solución vial de larga duración y bajo mantenimiento, mejorando la calidad de vida de los residentes.",
-  }
-};
+const { title, body: description, imageGallery } = project;
 
-const details = projectDetails[id] || { title: "Proyecto Vial", description: "Descripción no disponible." };
-const { title, description } = details;
-
-const imageFiles = fs.readdirSync(projectDir)
-  .filter(file => file.endsWith('.webp'))
-  .map(file => ({
-    src: `/Infraestructura-Vial/${id}/${file}`,
-    caption: `Imagen de ${title}` // Placeholder caption
-  }));
+const imageFiles = imageGallery.map(src => ({
+  src,
+  caption: `Imagen de ${title}` // Placeholder caption
+}));
 ---
 
 <Layout title={title} description={description}>
@@ -58,6 +33,26 @@ const imageFiles = fs.readdirSync(projectDir)
     <p class="text-lg text-text-dark mb-12 leading-relaxed">{description}</p>
 
     <h2 class="text-3xl font-bold text-center mb-8 text-text-dark">Galería de Imágenes</h2>
-    <LightboxGallery images={imageFiles} />
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-12">
+      {imageFiles.map((image, index) => (
+        <div class="relative group cursor-pointer" onclick={`window.myProjectScripts.openLightbox(${index}, ${JSON.stringify(imageFiles)}, '${title}')`}>
+          <Image 
+            src={image.src} 
+            alt={image.caption} 
+            width={600}
+            height={400}
+            class="w-full h-auto object-contain rounded-lg shadow-md transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg">
+            <span class="text-white text-xl font-semibold">{image.caption}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <LightboxGallery projectImages={imageFiles} projectTitle={title} />
   </div>
 </Layout>

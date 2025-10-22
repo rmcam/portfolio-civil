@@ -1,110 +1,200 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import BriefCase from '../components/icons/BriefCase.astro';
-import CheckIcon from '../components/icons/CheckIcon.astro';
-import SectionContainer from '../components/SectionContainer.astro';
+// Importaciones de componentes y utilidades
+import Layout from '../layouts/Layout.astro'; // Layout principal de la página
+import BriefCase from '../components/icons/BriefCase.astro'; // Icono para beneficios de consultoría
+import CheckIcon from '../components/icons/CheckIcon.astro'; // Icono de verificación para beneficios
+import SectionContainer from '../components/SectionContainer.astro'; // Contenedor de sección genérico
+import { PROJECTS } from '../data/projects'; // Datos de los proyectos para la galería
+import Tools from '../components/icons/Tools.astro'; // Icono para "Por Qué Elegirnos"
+import Building from '../components/icons/Building.astro'; // Icono para "Por Qué Elegirnos"
+import FileSearch from '../components/icons/FileSearch.astro'; // Icono para "Por Qué Elegirnos"
+import CameraIcon from '../components/icons/Camera.astro'; // Icono para la galería de proyectos
+import LightboxGallery from '../components/LightboxGallery.astro'; // Componente de galería Lightbox
+import { Image } from 'astro:assets'; // Importar el componente Image de Astro
+import consultoriaWebp from '../assets/Consultoria/consultoria.webp'; // Importar la imagen de fondo
+import { TAGS, type Project } from '../data/projects'; // Importar TAGS y Project para el filtrado
+
+const consultoriaProjects = PROJECTS.filter((project: Project) => project.tags.some(tag => tag.name === TAGS.CONSULTORIA.name));
+
 ---
+<!--
+  Página de Consultoría en Ingeniería Civil.
+  Presenta los servicios de consultoría, propuesta de valor, razones para elegirnos,
+  servicios detallados y una galería de proyectos destacados con funcionalidad de lightbox.
+-->
 <Layout 
   title="Consultoría en Ingeniería Civil - Soluciones Integrales para su Proyecto" 
   description="Ofrecemos consultoría experta en ingeniería civil, desde la planificación y diseño hasta la gerencia y supervisión de obras. Asegure el éxito de su proyecto con nuestra experiencia."
 >
-  <!-- Hero Section -->
-  <section class="relative h-80 flex items-center justify-center text-center p-8" style="background-image: url('/Consultoria/consultoria.webp'); background-size: cover; background-position: center;">
+  <!-- Sección Hero: Título principal y descripción del servicio de consultoría -->
+  <section class="relative h-96 flex items-center justify-center text-center p-8">
+    <Image
+      src={consultoriaWebp}
+      alt="Imagen de fondo de consultoría"
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="eager"
+      decoding="async"
+      widths={[768, 1024, 1440, 1920]}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 100vw"
+    />
     <div class="absolute inset-0 bg-black bg-opacity-60"></div>
     <div class="relative z-10">
-      <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
-        Consultoría de Alto Nivel
+      <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4 tracking-tight leading-tight">
+        Consultoría Estratégica en Ingeniería Civil
       </h1>
-      <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto">
-        Transformamos sus ideas en proyectos exitosos, garantizando calidad, eficiencia y cumplimiento normativo en cada etapa.
+      <p class="text-xl md:text-2xl text-gray-200 max-w-4xl mx-auto mt-4">
+        Expertos en transformar desafíos complejos en soluciones innovadoras y sostenibles para sus proyectos.
       </p>
     </div>
   </section>
 
-  <SectionContainer class="py-16 animate-on-scroll">
-    <!-- Sección de Propuesta de Valor -->
+  <!-- Sección de Propuesta de Valor y Beneficios -->
+  <SectionContainer class="py-20 animate-on-scroll">
     <div class="text-center mb-16">
-      <h2 class="text-3xl font-bold text-gray-800 mb-4">Su Aliado Estratégico en Construcción</h2>
-      <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-        Más que consultores, somos sus socios en el éxito. Nuestra metodología se centra en entender sus necesidades para ofrecer soluciones a medida que optimizan recursos y superan expectativas.
+      <h2 class="text-4xl font-bold text-gray-800 mb-6">Su Socio Confiable para el Éxito de su Proyecto</h2>
+      <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+        Enfocamos nuestra consultoría en ofrecer resultados tangibles. Desde la concepción hasta la entrega, optimizamos cada fase para garantizar la viabilidad, eficiencia y rentabilidad de sus inversiones.
       </p>
     </div>
 
-    <!-- Iconos de Beneficios -->
+    <!-- Bloque de beneficios clave con iconos -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-      <div class="flex flex-col items-center">
-        <div class="bg-red-100 p-4 rounded-full mb-4">
-          <BriefCase class="w-12 h-12 text-red-600" />
+      <div class="flex flex-col items-center p-6 group">
+        <div class="bg-primary-light p-5 rounded-full mb-6 transform group-hover:scale-110 transition-transform duration-300">
+          <BriefCase class="w-14 h-14 text-primary" />
         </div>
-        <h3 class="text-xl font-semibold mb-2 text-gray-800">Experiencia Comprobada</h3>
-        <p class="text-gray-600">Años de experiencia en proyectos de diversa escala y complejidad nos respaldan.</p>
+        <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-primary transition-colors duration-300">Experiencia y Liderazgo</h3>
+        <p class="text-lg text-gray-600">Más de una década liderando proyectos complejos, aportando conocimiento profundo y soluciones probadas.</p>
       </div>
-      <div class="flex flex-col items-center">
-        <div class="bg-green-100 p-4 rounded-full mb-4">
-          <CheckIcon class="w-12 h-12 text-green-600" />
+      <div class="flex flex-col items-center p-6 group">
+        <div class="bg-accent-light p-5 rounded-full mb-6 transform group-hover:scale-110 transition-transform duration-300">
+          <CheckIcon class="w-14 h-14 text-accent" />
         </div>
-        <h3 class="text-xl font-semibold mb-2 text-gray-800">Calidad y Normatividad</h3>
-        <p class="text-gray-600">Compromiso total con los más altos estándares de calidad y el cumplimiento de la normativa vigente.</p>
+        <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-accent transition-colors duration-300">Innovación y Sostenibilidad</h3>
+        <p class="text-lg text-gray-600">Implementamos las últimas tecnologías y prácticas sostenibles para proyectos con visión de futuro.</p>
       </div>
-      <div class="flex flex-col items-center">
-        <div class="bg-purple-100 p-4 rounded-full mb-4">
-          <BriefCase class="w-12 h-12 text-purple-600" />
+      <div class="flex flex-col items-center p-6 group">
+        <div class="bg-secondary-light p-5 rounded-full mb-6 transform group-hover:scale-110 transition-transform duration-300">
+          <BriefCase class="w-14 h-14 text-secondary" />
         </div>
-        <h3 class="text-xl font-semibold mb-2 text-gray-800">Gestión Integral</h3>
-        <p class="text-gray-600">Nos encargamos de todo el ciclo de vida del proyecto, para que usted no tenga que preocuparse por nada.</p>
+        <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-secondary transition-colors duration-300">Resultados Medibles</h3>
+        <p class="text-lg text-gray-600">Nuestro enfoque se traduce en proyectos entregados a tiempo, dentro del presupuesto y con la máxima calidad.</p>
       </div>
     </div>
   </SectionContainer>
 
-  <!-- Sección de Servicios Detallados -->
-  <section class="py-16  ">
+  <!-- Sección de "Por Qué Elegir Nuestra Consultoría" -->
+  <section class="py-20 bg-white">
     <SectionContainer class="animate-on-scroll">
-      <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Nuestros Servicios de Consultoría</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Servicio 1 -->
-        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow animate-on-scroll">
-          <h4 class="text-xl font-semibold mb-2 text-red-600">Estudios y Diseños</h4>
-          <p class="text-gray-600">Realizamos estudios de factibilidad, diseños estructurales, hidráulicos y viales con precisión y tecnología de punta.</p>
+      <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">¿Por Qué Elegir Nuestra Consultoría?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+        <div class="flex flex-col items-center text-center group">
+        <div class="bg-secondary-light p-5 rounded-full mb-6 transform group-hover:rotate-6 transition-transform duration-300">
+            <Tools class="w-14 h-14 text-secondary" />
+          </div>
+          <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-secondary transition-colors duration-300">Enfoque Personalizado</h3>
+          <p class="text-lg text-gray-700">Cada proyecto es único. Ofrecemos soluciones a medida que se adaptan a sus necesidades específicas y objetivos.</p>
         </div>
-        <!-- Servicio 2 -->
-        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow animate-on-scroll" style="transition-delay: 100ms;">
-          <h4 class="text-xl font-semibold mb-2 text-red-600">Interventoría y Supervisión</h4>
-          <p class="text-gray-600">Garantizamos que su obra se ejecute según los planos, especificaciones y plazos acordados, controlando costos y calidad.</p>
+        <div class="flex flex-col items-center text-center group" style="transition-delay: 100ms;">
+        <div class="bg-primary-light p-5 rounded-full mb-6 transform group-hover:rotate-6 transition-transform duration-300">
+            <Building class="w-14 h-14 text-primary" />
+          </div>
+          <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-primary transition-colors duration-300">Visión Integral</h3>
+          <p class="text-lg text-gray-700">Consideramos todos los aspectos del proyecto, desde la viabilidad técnica hasta el impacto ambiental y social.</p>
         </div>
-        <!-- Servicio 3 -->
-        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow animate-on-scroll" style="transition-delay: 200ms;">
-          <h4 class="text-xl font-semibold mb-2 text-red-600">Gerencia de Proyectos</h4>
-          <p class="text-gray-600">Lideramos la planificación, ejecución y cierre de su proyecto, asegurando una gestión eficiente de todos los recursos.</p>
-        </div>
-        <!-- Servicio 4 -->
-        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-          <h4 class="text-xl font-semibold mb-2 text-red-600">Consultoría Especializada</h4>
-          <p class="text-gray-600">Ofrecemos asesoría en patología estructural, geotecnia, y normatividad para resolver desafíos complejos.</p>
-        </div>
-        <!-- Servicio 5 -->
-        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-            <h4 class="text-xl font-semibold mb-2 text-red-600">Presupuestos y Licitaciones</h4>
-            <p class="text-gray-600">Elaboramos presupuestos detallados y preparamos la documentación técnica para procesos de licitación.</p>
-        </div>
-        <!-- Servicio 6 -->
-        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-            <h4 class="text-xl font-semibold mb-2 text-red-600">Topografía y Geodesia</h4>
-            <p class="text-gray-600">Servicios topográficos de alta precisión para todas las fases de su proyecto, desde el levantamiento inicial hasta el control de obra.</p>
+        <div class="flex flex-col items-center text-center group" style="transition-delay: 200ms;">
+        <div class="bg-accent-light p-5 rounded-full mb-6 transform group-hover:rotate-6 transition-transform duration-300">
+            <FileSearch class="w-14 h-14 text-accent" />
+          </div>
+          <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-accent transition-colors duration-300">Tecnología Avanzada</h3>
+          <p class="text-lg text-gray-700">Utilizamos las últimas herramientas y metodologías para garantizar la precisión y eficiencia en cada fase.</p>
         </div>
       </div>
     </SectionContainer>
   </section>
 
-  
+  <!-- Sección de Servicios Detallados -->
+  <section class="py-20 bg-gray-50">
+    <SectionContainer class="animate-on-scroll">
+      <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">Nuestros Servicios de Consultoría Integral</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <!-- Servicio 1: Estudios de Factibilidad y Diseño Avanzado -->
+        <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 animate-on-scroll">
+          <h4 class="text-2xl font-semibold mb-3 text-primary">Estudios de Factibilidad y Diseño Avanzado</h4>
+          <p class="text-gray-700 leading-relaxed">Análisis exhaustivos y diseños detallados para garantizar la viabilidad técnica y económica de su proyecto, desde estructuras hasta sistemas hidráulicos y viales.</p>
+        </div>
+        <!-- Servicio 2: Interventoría y Supervisión de Obras -->
+        <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 animate-on-scroll" style="transition-delay: 100ms;">
+          <h4 class="text-2xl font-semibold mb-3 text-primary">Interventoría y Supervisión de Obras</h4>
+          <p class="text-gray-700 leading-relaxed">Control riguroso de la ejecución, calidad, costos y plazos, asegurando que cada fase del proyecto cumpla con los más altos estándares y normativas.</p>
+        </div>
+        <!-- Servicio 3: Gerencia y Optimización de Proyectos -->
+        <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 animate-on-scroll" style="transition-delay: 200ms;">
+          <h4 class="text-2xl font-semibold mb-3 text-primary">Gerencia y Optimización de Proyectos</h4>
+          <p class="text-gray-700 leading-relaxed">Gestión integral desde la planificación estratégica hasta la entrega final, maximizando la eficiencia y minimizando riesgos para el éxito garantizado.</p>
+        </div>
+        <!-- Servicio 4: Asesoría Especializada y Patología Estructural -->
+        <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+          <h4 class="text-2xl font-semibold mb-3 text-primary">Asesoría Especializada y Patología Estructural</h4>
+          <p class="text-gray-700 leading-relaxed">Soluciones expertas para desafíos complejos en geotecnia, patología estructural y cumplimiento normativo, brindando seguridad y durabilidad.</p>
+        </div>
+        <!-- Servicio 5: Elaboración de Presupuestos y Licitaciones -->
+        <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+            <h4 class="text-2xl font-semibold mb-3 text-primary">Elaboración de Presupuestos y Licitaciones</h4>
+            <p class="text-gray-700 leading-relaxed">Desarrollo de presupuestos precisos y preparación de documentación técnica competitiva para asegurar la adjudicación de sus proyectos.</p>
+        </div>
+        <!-- Servicio 6: Topografía de Precisión y Geodesia -->
+        <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+            <h4 class="text-2xl font-semibold mb-3 text-primary">Topografía de Precisión y Geodesia</h4>
+            <p class="text-gray-700 leading-relaxed">Servicios topográficos avanzados para todas las etapas del proyecto, desde levantamientos iniciales hasta el control geométrico de obra con alta exactitud.</p>
+        </div>
+      </div>
+    </SectionContainer>
+  </section>
+
+  <!-- Sección de Proyectos Destacados (Galería de Imágenes con Lightbox) -->
+  <section class="py-20 bg-gray-100">
+    <SectionContainer class="animate-on-scroll">
+      <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">Nuestros Proyectos Destacados</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {consultoriaProjects.map((project: Project, projectIndex: number) => (
+          <div class="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+               onclick={`window.myProjectScripts.openLightbox(${projectIndex}, ${JSON.stringify(project.images)}, '${project.title.replace(/'/g, "\\'")}')`}>
+            <Image
+              src={project.images[0].src}
+              alt={`${project.title} - Main Image`}
+              width={400}
+              height={256}
+              class="object-cover w-full h-64 transform group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <p class="text-white text-xl font-bold text-center p-4">{project.title}</p>
+            </div>
+            {project.images.length > 1 && (
+              <div class="absolute bottom-2 right-2 flex items-center space-x-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded-md">
+                <CameraIcon class="size-4" />
+                <span>{project.images.length}</span>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </SectionContainer>
+  </section>
+
+  <!-- Componente LightboxGallery para mostrar las imágenes de los proyectos -->
+  <LightboxGallery projectImages={[]} projectTitle="" />
 
   <!-- Sección de Llamada a la Acción (CTA) -->
-  <section class=" text-black">
-    <SectionContainer class="py-16 text-center">
-      <h2 class="text-3xl font-bold mb-4">¿Listo para Iniciar su Próximo Proyecto?</h2>
-      <p class="text-lg mb-8 max-w-2xl mx-auto">
-        Permítanos ser el pilar sobre el que se construya su éxito. Contáctenos hoy para una consulta sin compromiso.
+  <section class="bg-primary text-white">
+    <SectionContainer class="py-20 text-center">
+      <h2 class="text-4xl font-bold mb-6">¿Listo para Elevar su Próximo Proyecto?</h2>
+      <p class="text-xl mb-10 max-w-3xl mx-auto leading-relaxed">
+        Permítanos ser el pilar de su éxito. Contáctenos hoy para una consulta estratégica y descubra cómo podemos transformar sus ideas en realidad.
       </p>
-      <a href="/contacto" class="bg-white text-red-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition duration-300 text-lg">
+      <a href="/contacto" class="bg-white text-primary font-bold py-4 px-10 rounded-full shadow-lg hover:bg-gray-100 transition duration-300 text-xl uppercase tracking-wide">
         Hablemos de su Proyecto
       </a>
     </SectionContainer>

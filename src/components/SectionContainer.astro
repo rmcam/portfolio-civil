@@ -4,7 +4,7 @@ const { class: className, id, fullWidth } = Astro.props;
 
 <section
   id={id}
-  class={`section ${className} scroll-m-20 w-full mx-auto ${fullWidth ? '' : 'container lg:w-[1200px] lg:max-w-4xl md:max-w-2xl'}`}
+  class={`section ${className} scroll-m-20 w-full mx-auto ${fullWidth ? 'px-4 sm:px-6 lg:px-8' : 'container lg:w-[1200px] lg:max-w-4xl md:max-w-2xl'}`}
 >
   <slot />
 </section>

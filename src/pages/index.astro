@@ -1,86 +1,107 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro'; // Import the adapted Card component
-import Hero from '../components/Hero.astro'; // Import the updated Hero component
-import AboutMe from '../components/AboutMe.astro'; // Import AboutMe component
-import BriefCase from "@/components/icons/BriefCase.astro";
-import Folder from "@/components/icons/Folder.astro";
-import Road from "@/components/icons/Road.astro"; // Importar icono de carretera
-import RoadSign from "@/components/icons/RoadSign.astro"; // Importar icono de señal de carretera
-import WaterDrop from "@/components/icons/WaterDrop.astro"; // Importar el nuevo icono
-import ProjectCarousel from "@/components/ProjectCarousel.astro"; // Importamos el nuevo carrusel
-import { PROJECTS } from "../data/projects"; // Importamos los datos de los proyectos
-import SectionContainer from "@/components/SectionContainer.astro";
-import UserIcon from "@/components/icons/User.astro";
-import Tools from "@/components/icons/Tools.astro"; // Importar el nuevo icono Tools
+// Importaciones de componentes y utilidades
+import Layout from '../layouts/Layout.astro'; // Layout principal de la página
+import Card from '../components/Card.astro'; // Componente para mostrar tarjetas de servicios
+import Hero from '../components/Hero.astro'; // Componente de la sección principal (héroe)
+import AboutMe from '../components/AboutMe.astro'; // Componente de la sección "Sobre Mí"
+import BriefCase from "@/components/icons/BriefCase.astro"; // Icono para consultoría
+import Folder from "@/components/icons/Folder.astro"; // Icono para proyectos
+import Road from "@/components/icons/Road.astro"; // Icono para infraestructura vial
+import RoadSign from "@/components/icons/RoadSign.astro"; // Icono para topografía
+import WaterDrop from "@/components/icons/WaterDrop.astro"; // Icono para recursos hídricos
+import ProjectCarousel from "@/components/ProjectCarousel.astro"; // Carrusel de proyectos
+import { PROJECTS } from "../data/projects"; // Datos de los proyectos
+import SectionContainer from "@/components/SectionContainer.astro"; // Contenedor de sección genérico
+import UserIcon from "@/components/icons/User.astro"; // Icono para la sección "Sobre Mí"
+import Tools from "@/components/icons/Tools.astro"; // Icono para diseño de estructuras
+
+// Importar imágenes para las tarjetas de servicios
+import consultoriaWebp from '../assets/Consultoria/consultoria.webp';
+import estructurasWebp from '../assets/Estructuras/Estructuras.webp';
+import viasWebp from '../assets/vias/vias.webp';
+import hidraulicaWebp from '../assets/Recursos-Hídricos/hidraulica.webp';
+import topografiaWebp from '../assets/Topografía/topografia.webp';
 ---
 
+<!--
+  Página de inicio del portafolio.
+  Utiliza el Layout principal y organiza las secciones clave del sitio:
+  Hero, Servicios, Proyectos y Sobre Mí.
+-->
 <Layout
-	title="Portafolio Ingeniero Civil"
-	description="Experticia en ingeniería civil: vías, topografía, hidráulica, estructuras y consultoría."
+	title="Ingeniero Civíl Guillermo Quintero"
+	description="Portafolio de servicios de ingeniería civil, incluyendo consultoría, diseño estructural, infraestructura vial, gestión hídrica y topografía avanzada."
 >
 	<main>
-		<Hero /> <!-- Hero component is now self-contained -->
+		<!-- Sección principal (Hero) -->
+		<Hero />
 
-		<!-- Services Section -->
-		<SectionContainer class="px-28 py-20 bg-gray-50" id="servicios" fullWidth={true}>
+		<!-- Sección de Servicios -->
+		<SectionContainer class="px-4 sm:px-8 lg:px-28 py-20 bg-gray-50" id="servicios" fullWidth={true}>
 			<h2 class="text-2xl font-bold flex gap-x-2 items-center mb-8 text-secondary">
 				<Tools class="inline size-7" />
 				Nuestros Servicios
 			</h2>
 			<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+				<!-- Tarjeta de servicio: Consultoría Estratégica -->
 				<Card
-					title="Consultoría"
-					body="Asesoría experta y estratégica para la optimización de tus proyectos de ingeniería, garantizando resultados superiores. Descubre cómo."
+					title="Consultoría Estratégica en Ingeniería"
+					body="Asesoría experta para optimizar tus proyectos, garantizar la calidad y alcanzar tus objetivos. Transformamos tus desafíos en soluciones eficientes y rentables. Descubre cómo te ayudamos."
 					href="/consultoria"
 					Icon={BriefCase}
-					imageUrl="/Consultoria/consultoria.webp"
+					imageUrl={consultoriaWebp}
 					class="animate-fade-in-up animation-delay-100"
 				/>
+				<!-- Tarjeta de servicio: Diseño y Cálculo de Estructuras -->
 				<Card
-					title="Estructuras"
-					body="Diseñamos y calculamos estructuras seguras y eficientes, asegurando la solidez y durabilidad de tus edificaciones. Descubre cómo."
+					title="Diseño y Cálculo de Estructuras"
+					body="Creamos estructuras seguras y duraderas, desde cero. Tu tranquilidad es nuestra prioridad, asegurando la solidez de cada edificación con ingeniería de precisión. Descubre cómo te ayudamos."
 					href="/estructuras"
 					Icon={Tools}
-					imageUrl="/Estructuras/Estructuras.webp"
+					imageUrl={estructurasWebp}
 					class="animate-fade-in-up animation-delay-200"
 				/>
+				<!-- Tarjeta de servicio: Ingeniería de Infraestructura Vial -->
 				<Card
-					title="Infraestructura Vial"
-					body="Diseñamos y construimos infraestructura vial que impulsa la movilidad y el progreso, conectando comunidades de manera eficiente. Descubre cómo."
+					title="Ingeniería de Infraestructura Vial"
+					body="Diseñamos vías que conectan, movilizan y potencian el desarrollo. Construimos caminos que impulsan el progreso y mejoran la calidad de vida de las comunidades. Descubre cómo te ayudamos."
 					href="/vias"
 					Icon={Road}
-					imageUrl="/Infraestructura-Vial/vias.webp"
+					imageUrl={viasWebp}
 					class="animate-fade-in-up animation-delay-300"
 				/>
+				<!-- Tarjeta de servicio: Gestión Sostenible de Recursos Hídricos -->
 				<Card
-					title="Recursos Hídricos"
-					body="Optimizamos la gestión del agua para tus proyectos, asegurando sostenibilidad y reduciendo costos a largo plazo. Descubre cómo."
+					title="Gestión Sostenible de Recursos Hídricos"
+					body="Manejo eficiente y responsable del agua. Optimizamos la gestión hídrica de tus proyectos para garantizar sostenibilidad y reducir costos a largo plazo. Descubre cómo te ayudamos."
 					href="/hidraulica"
 					Icon={WaterDrop}
-					imageUrl="/Recursos-Hídricos/hidraulica.webp"
+					imageUrl={hidraulicaWebp}
 					class="animate-fade-in-up animation-delay-400"
 				/>
+				<!-- Tarjeta de servicio: Estudios de Topografía Avanzada -->
 				<Card
-					title="Topografía"
-					body="Realizamos mediciones precisas y representaciones detalladas del terreno para garantizar el éxito y la viabilidad de tu proyecto. Descubre cómo."
+					title="Estudios de Topografía Avanzada"
+					body="Obtén la información más precisa de tu terreno. Nuestras mediciones detalladas y representaciones exactas son la base para el éxito y la viabilidad de cualquier proyecto. Descubre cómo te ayudamos."
 					href="/topografia"
 					Icon={RoadSign}
-					imageUrl="/Topografía/topografia.webp"
+					imageUrl={topografiaWebp}
 					class="animate-fade-in-up animation-delay-500"
 				/>
 			</ul>
 		</SectionContainer>
 
-
-		<SectionContainer class="px-28 py-20 bg-gray-50"  id="proyectos" fullWidth={true}>
+		<!-- Sección de Proyectos -->
+		<SectionContainer class="px-4 sm:px-8 lg:px-28 py-20 bg-gray-50"  id="proyectos" fullWidth={true}>
 			<h2 class="text-2xl font-bold flex gap-x-2 items-center mb-8 text-secondary">
 					<Folder class="inline size-7" />
 					Proyectos
 				</h2>
 				<ProjectCarousel projects={PROJECTS} />
 		</SectionContainer>
-		<SectionContainer class="px-0 py-20 md:py-10" id="sobre-mi" >
+
+		<!-- Sección "Sobre Mí" -->
+		<SectionContainer class="px-4 sm:px-8 lg:px-28 py-20 md:py-10" id="sobre-mi" >
 			<h2 class="text-2xl font-bold flex gap-x-2 items-center text-secondary">
 				<UserIcon class="inline size-7" />
 				Sobre mi

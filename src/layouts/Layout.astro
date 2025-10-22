@@ -1,19 +1,24 @@
 ---
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
+import SkeletonLoader from "@/components/SkeletonLoader.astro";
 import "@fontsource-variable/onest";
 interface Props {
   title: string;
   description: string;
 }
 
-const { title } = Astro.props;
-const { description } = Astro.props;
+const { title, description } = Astro.props;
 ---
-
+<!--
+  Layout principal de la aplicación.
+  Define la estructura básica de todas las páginas, incluyendo metadatos, cabecera, pie de página
+  y un cargador de esqueleto para mejorar la percepción de rendimiento.
+-->
 <!doctype html>
 <html lang="es">
   <head>
+    <!-- Metadatos de la página -->
     <meta charset="UTF-8" />
     <meta
       name="description"
@@ -23,24 +28,33 @@ const { description } = Astro.props;
       name="viewport"
       content="width=device-width"
     />
+    <!-- Icono de la página (favicon) -->
     <link
       rel="icon"
       type="image/svg+xml"
       href="/favicon.svg"
     />
+    <!-- Generador de Astro, útil para herramientas de desarrollo -->
     <meta
       name="generator"
       content={Astro.generator}
     />
+    <!-- Título de la página, dinámico según la prop 'title' -->
     <title>{title}</title>
   </head>
-  <body class="relative text-black">
+  <body class="relative flex min-h-screen flex-col text-black">
+    <!-- Componente de carga inicial para mejorar la experiencia del usuario -->
+    <SkeletonLoader />
+    <!-- Cabecera de navegación global -->
     <Header />
-    <main class="pt-24 pb-5"> {/* Added padding to account for fixed header and space before footer */}
+    <!-- Contenido principal de la página, inyectado a través de <slot /> -->
+    <main class="flex-grow pt-24 pb-5"> {/* Se añadió padding para la cabecera fija y espacio antes del pie de página */}
       <slot />
     </main>
+    <!-- Pie de página global -->
     <Footer />
 
+    <!-- Script para animaciones al hacer scroll (Intersection Observer) -->
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const animatedElements = document.querySelectorAll(".animate-on-scroll");
@@ -59,7 +73,7 @@ const { description } = Astro.props;
             observer.observe(element);
           });
         } else {
-          // Fallback for older browsers
+          // Fallback para navegadores antiguos: mostrar elementos animados directamente
           animatedElements.forEach(element => {
             element.classList.add("is-visible");
           });
@@ -69,8 +83,9 @@ const { description } = Astro.props;
   </body>
 </html>
 
+<!-- Estilos globales para la aplicación -->
 <style is:global>
-  /* Animation styles */
+  /* Estilos para animaciones al hacer scroll */
   .animate-on-scroll {
     opacity: 0;
     transform: translateY(20px);
@@ -82,22 +97,25 @@ const { description } = Astro.props;
     transform: translateY(0);
   }
 
+  /* Configuración del esquema de color (claro/oscuro) */
   :root {
     color-scheme: light dark;
   }
+  /* Estilos base para el HTML */
   html {
     font-family: "Onest Variable", system-ui, sans-serif;
-    scroll-behavior: smooth;
+    scroll-behavior: smooth; /* Desplazamiento suave */
   }
+  /* Estilos base para el cuerpo de la página */
   body {
-    background-color: rgb(250, 248, 248);
-    
+    background-color: rgb(250, 248, 248); /* Color de fondo claro */
     margin: 0;
   }
 
-  @media (preffers-reduced-motion: reduce) {
+  /* Media query para usuarios que prefieren movimiento reducido */
+  @media (prefers-reduced-motion: reduce) {
     html {
-      scroll-behavior: auto;
+      scroll-behavior: auto; /* Desactivar desplazamiento suave */
     }
   }
 </style>

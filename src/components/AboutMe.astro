@@ -1,11 +1,18 @@
 ---
+// Importación del componente Badge para etiquetas reutilizables
 import Badge from './Badge.astro';
 ---
 
+<!--
+  Componente "Sobre Mí" que presenta la experiencia y el compromiso del ingeniero.
+  Incluye una descripción detallada, habilidades clave y un llamado a la acción.
+-->
 <article
   class="flex flex-col items-center justify-center gap-6 text-gray-800 md:flex-row animate-fade-in-up animation-delay-100"
 >
-  <!-- <div class="order-1 md:order-2 flex justify-center items-center animate-fade-in-up animation-delay-200">
+  <!-- Bloque de imagen personal (comentado, se puede activar si se desea añadir una foto) -->
+  <!--
+  <div class="order-1 md:order-2 flex justify-center items-center animate-fade-in-up animation-delay-200">
     <img
       width="250"
       height="250"
@@ -15,13 +22,18 @@ import Badge from './Badge.astro';
       aspect-square rounded-full bg-gray-100 ring-4 ring-red-700 shadow-xl"
       style="object-position: 50% 30%"
     />
-  </div> -->
-    <div
-      class="[&>p]:mb-4 [&>p>strong]:text-red-700 [&>p>strong]:font-semibold [&>p>strong]:font-sans text-pretty order-2 md:order-1 [&>p]:text-lg [&>p]:leading-relaxed max-w-3xl animate-fade-in-up animation-delay-300"
-    >
-      <h2 class="text-3xl md:text-4xl font-bold text-black mb-4">Ingeniero Civil Especialista en Infraestructura Vial y Recursos Hídricos</h2>
+  </div>
+  -->
+  <!-- Contenido textual de la sección "Sobre Mí" -->
+  <div
+    class="[&>p]:mb-4 [&>p>strong]:text-red-700 [&>p>strong]:font-semibold [&>p>strong]:font-sans text-pretty order-2 md:order-1 [&>p]:text-lg [&>p]:leading-relaxed max-w-3xl animate-fade-in-up animation-delay-300"
+  >
+    <!-- Título de la especialización -->
+    <h2 class="text-3xl md:text-4xl font-bold text-black mb-4">Ingeniero Civil Especialista en Infraestructura Vial y Recursos Hídricos</h2>
+    <!-- Badges de experiencia y especialidades -->
     <div class="flex flex-wrap gap-4 mb-6 justify-center md:justify-start">
       <div class="bg-red-100 text-red-800 text-sm font-medium px-4 py-2 rounded-full flex items-center gap-2">
+        <!-- Icono de calendario para años de experiencia -->
         <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
         <span><strong class="text-red-900">+10 años de experiencia</strong></span>
       </div>
@@ -30,6 +42,7 @@ import Badge from './Badge.astro';
         <Badge>Recursos Hídricos</Badge>
       </div>
     </div>
+    <!-- Párrafos de descripción personal y profesional -->
     <p>
       Soy <strong>Guillermo Quintero</strong>, Ingeniero Civil con más de una década de experiencia liderando proyectos de diseño, construcción y consultoría. Mi doble especialización en <strong class="text-red-700">Diseño y Construcción de Vías y Aeropistas</strong> y en <strong class="text-red-700">Recursos Hídricos</strong> me ha permitido desarrollar una visión integral para la ejecución de obras civiles complejas y de alto impacto.
     </p>
@@ -38,7 +51,9 @@ import Badge from './Badge.astro';
       Mi enfoque se centra en la aplicación de un riguroso criterio técnico para garantizar <strong class="text-red-700">soluciones eficientes, seguras y sostenibles</strong>. He gestionado con éxito proyectos que abarcan desde la infraestructura vial y el manejo de recursos hídricos hasta estructuras complejas y levantamientos topográficos de precisión.
     </p>
 
+    <!-- Título de la sección de compromiso -->
     <h3 class="text-2xl font-bold text-black mt-8 mb-4">Mi Compromiso:</h3>
+    <!-- Lista de compromisos con iconos de verificación -->
     <ul class="list-none space-y-2 mb-4">
       <li class="flex items-center gap-2">
         <svg class="size-6 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -56,15 +71,9 @@ import Badge from './Badge.astro';
   </div>
 </article>
 
+<!-- Sección de llamada a la acción para contactar -->
 <section class="mt-8 text-center flex flex-col sm:flex-row justify-center items-center gap-4 animate-fade-in-up animation-delay-400">
   <a href="/contacto" class="inline-block bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-red-800 hover:scale-105 transition duration-300">
     Hablemos de su proyecto
-  </a>
-  <a
-    href="/CV_Guillermo_Quintero.pdf"
-    download="CV_Guillermo_Quintero.pdf"
-    class="inline-block bg-gray-800 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-900 hover:scale-105 transition duration-300"
-  >
-    Descargar CV
   </a>
 </section>
