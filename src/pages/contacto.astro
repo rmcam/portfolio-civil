@@ -2,9 +2,6 @@
 // Importaciones de componentes y utilidades
 import Layout from '../layouts/Layout.astro'; // Layout principal de la página
 import MailIcon from '../components/icons/Mail.astro'; // Icono de correo
-import WhatsAppIcon from '../components/icons/WhatsApp.astro'; // Icono de WhatsApp
-import LinkedInIcon from '../components/icons/LinkedIn.astro'; // Icono de LinkedIn
-import LinkButton from '../components/LinkButton.astro'; // Componente de botón de enlace
 
 ---
 <!--
@@ -22,7 +19,7 @@ import LinkButton from '../components/LinkButton.astro'; // Componente de botón
         <!-- Columna Izquierda: Formulario de Contacto -->
         <div class="flex flex-col gap-8">
           <!-- Formulario de Contacto -->
-          <form id="contact-form" action="https://formspree.io/f/xjkegkpy" method="POST" class="bg-white p-6 rounded-lg shadow-md space-y-6">
+          <form id="contact-form" action={import.meta.env.PUBLIC_FORMSPREE_CONTACT_FORM_URL} method="POST" class="bg-white p-6 rounded-lg shadow-md space-y-6">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">Envíame un Mensaje</h2>
             <div>
               <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nombre Completo:</label>
@@ -88,21 +85,8 @@ import LinkButton from '../components/LinkButton.astro'; // Componente de botón
               </p>
               <p class="flex items-center gap-3">
                 <MailIcon class="size-6 text-primary" />
-                <a href="mailto:contacto@ingenierocivil.com" class="text-gray-700 hover:text-primary transition-colors duration-300">contacto@ingenierocivil.com</a>
+                <a href="mailto:info@guillermoquintero.com.co" class="text-gray-700 hover:text-primary transition-colors duration-300">info@guillermoquintero.com.co</a>
               </p>
-              <p class="flex items-center gap-3">
-                <WhatsAppIcon class="size-6 text-primary" />
-                <a href="https://wa.me/+573001234567" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-primary transition-colors duration-300">+57 300 123 4567</a>
-              </p>
-              <p class="flex items-center gap-3">
-                <LinkedInIcon class="size-6 text-primary" />
-                <a href="https://www.linkedin.com/in/guillermo-quintero-ingeniero-civil" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-primary transition-colors duration-300">LinkedIn</a>
-              </p>
-            </div>
-            <div class="mt-8">
-              <LinkButton href="https://www.linkedin.com/in/guillermo-quintero-ingeniero-civil" target="_blank" rel="noopener noreferrer" class="w-full">
-                Ver Perfil de LinkedIn
-              </LinkButton>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 ---
 ---
 
-<div id="skeleton-loader" class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-gray-900 transition-opacity duration-500 opacity-100">
+<div id="skeleton-loader" class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-gray-900 opacity-100">
   <div class="animate-pulse flex flex-col space-y-6 w-11/12 max-w-6xl p-8 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-xl">
     <!-- Header/Navbar Skeleton -->
     <div class="flex justify-between items-center mb-8">
@@ -47,10 +47,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     const skeletonLoader = document.getElementById('skeleton-loader');
     if (skeletonLoader) {
-      skeletonLoader.style.opacity = '0';
-      skeletonLoader.addEventListener('transitionend', () => {
-        skeletonLoader.remove();
-      }, { once: true });
+      skeletonLoader.remove();
     }
   });
 </script>
